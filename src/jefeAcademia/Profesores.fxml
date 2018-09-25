@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<AnchorPane id="AnchorPane" prefHeight="650.0" prefWidth="1300.0" stylesheets="@../css/MaterialFX.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jefeAcademia.ProfesoresController">
+   <children>
+      <Pane fx:id="paneTitulo" layoutX="543.0" layoutY="41.0" prefHeight="100.0" prefWidth="1300.0" style="-fx-background-color: #f7f7f7;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Text fx:id="textTitulo" fill="#0078f7" fontSmoothingType="LCD" layoutX="45.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 35px;" text="Profesores" />
+            <TextFlow fx:id="textFlow" layoutX="46.0" layoutY="30.0" prefHeight="17.0" prefWidth="136.0">
+               <children>
+                  <Text fx:id="textInicio" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Inicio&gt;" />
+                  <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Profesores" />
+               </children>
+            </TextFlow>
+         </children></Pane>
+      <Pane layoutX="550.0" layoutY="225.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fff;" styleClass="button-raised" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+         <children>
+            <Text fill="#b5b5b5" fontSmoothingType="LCD" layoutX="547.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20px;" text="Selecciona una opción" />
+            <Button fx:id="buttonRegistro" layoutX="100.0" layoutY="130.0" mnemonicParsing="false" onAction="#irA" prefHeight="300.0" prefWidth="300.0" styleClass="button-raised" />
+            <Button fx:id="buttonModificacionDatos" layoutX="500.0" layoutY="130.0" mnemonicParsing="false" onAction="#irA" prefHeight="300.0" prefWidth="300.0" styleClass="button-raised" />
+            <Button fx:id="buttonUnidades" layoutX="900.0" layoutY="130.0" mnemonicParsing="false" onAction="#irA" prefHeight="300.0" prefWidth="300.0" styleClass="button-raised" />
+            <ImageView layoutX="188.0" layoutY="169.0">
+               <image>
+                  <Image url="@../imagenes/books.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="589.0" layoutY="173.0">
+               <image>
+                  <Image url="@../imagenes/folder.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="989.0" layoutY="173.0">
+               <image>
+                  <Image url="@../imagenes/materias.png" />
+               </image>
+            </ImageView>
+            <Text fill="#0078f7" fontSmoothingType="LCD" layoutX="141.0" layoutY="350.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 27px;" text="Registrar Profesor" />
+            <Text fill="#0078f7" fontSmoothingType="LCD" layoutX="513.0" layoutY="345.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26px;" text="Editar datos de profesores existentes" textAlignment="CENTER" wrappingWidth="274.681672474974" />
+            <Text fill="#0078f7" layoutX="908.0" layoutY="345.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 23px;" text="Unidades de Aprendizaje impartidas por profesores" textAlignment="CENTER" wrappingWidth="284.6816622713643" />
+         </children></Pane>
+   </children>
+</AnchorPane>
