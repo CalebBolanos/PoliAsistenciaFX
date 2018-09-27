@@ -102,13 +102,13 @@ public class ElegirProfesorUnidadesController implements Initializable {
         }
     }
     
-    public void irAEditarDatos(String idProfesor){
+    public void irAUnidades(String idProfesor){
         Stage stageElegirProfesor = (Stage) (textInicio.getScene().getWindow());
-        EditarDatosProfesoresController editar = new EditarDatosProfesoresController(idProfesor);
-        FXMLLoader editarDatos = new FXMLLoader(getClass().getResource("EditarDatosProfesores.fxml"));
-        editarDatos.setController(editar);
+        GestionarUnidadesProfesorController gestionar = new GestionarUnidadesProfesorController(idProfesor);
+        FXMLLoader gestionarDatos = new FXMLLoader(getClass().getResource("GestionarUnidadesProfesor.fxml"));
+        gestionarDatos.setController(gestionar);
         try {
-            Scene sceneEditarDatos = new Scene(editarDatos.load());
+            Scene sceneEditarDatos = new Scene(gestionarDatos.load());
             stageElegirProfesor.setScene(sceneEditarDatos);
         } catch (IOException ex) {
             Logger.getLogger(ProfesoresController.class.getName()).log(Level.SEVERE, null, ex);
@@ -126,7 +126,6 @@ public class ElegirProfesorUnidadesController implements Initializable {
                     "genero"
             ));
         }
-        
         
         FilteredList<Persona> datosFiltrados = new FilteredList<>(datos, p -> true);
         textfieldBuscar.textProperty().addListener((observable, viejoValor, nuevoValor) -> {
@@ -160,7 +159,7 @@ public class ElegirProfesorUnidadesController implements Initializable {
     public void obtenerDatos(MouseEvent click){
         Persona personax = tableviewProfesores.getSelectionModel().getSelectedItem();
         if(personax != null){
-            irAEditarDatos(personax.getNumero());
+            irAUnidades(personax.getNumero());
         }
     }
     
