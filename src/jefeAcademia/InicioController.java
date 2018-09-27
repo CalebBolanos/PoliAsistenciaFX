@@ -59,7 +59,9 @@ public class InicioController implements Initializable {
             stageInicioJefe.setScene(sceneProfesores);
         }
         if(e.getSource().equals(buttonGrupos)){
-            //grupos
+            FXMLLoader grupos = new FXMLLoader(getClass().getResource("Grupos.fxml"));
+            Scene sceneGrupos = new Scene(grupos.load());
+            stageInicioJefe.setScene(sceneGrupos);
         }
         if(e.getSource().equals(buttonUnidades)){
             //unidades

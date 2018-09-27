@@ -3,7 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/caleb/Documents/GitHub/PoliAsistenciaFX/src/poliasistenciafx/PoliAsistenciaFX.java</file>
+            <file>file:/Users/caleb/Documents/GitHub/PoliAsistenciaFX/src/jefeAcademia/GestionarUnidadesProfesorController.java</file>
+            <file>file:/Users/caleb/Documents/GitHub/PoliAsistenciaFX/src/jefeAcademia/EditarDatosProfesoresController.java</file>
+            <file>file:/Users/caleb/Documents/GitHub/PoliAsistenciaFX/src/jefeAcademia/EditarDatosProfesores.fxml</file>
+            <file>file:/Users/caleb/Documents/GitHub/PoliAsistenciaFX/src/jefeAcademia/GestionarUnidadesProfesor.fxml</file>
         </group>
     </open-files>
 </project-private>
