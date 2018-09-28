@@ -12,38 +12,38 @@
     <children>
       <Pane fx:id="paneTitulo" layoutX="543.0" layoutY="41.0" prefHeight="100.0" prefWidth="1300.0" style="-fx-background-color: #f7f7f7;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Text fx:id="textTitulo" fill="#0078f7" fontSmoothingType="LCD" layoutX="45.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 35px;" text="Profesores" />
+            <Text fx:id="textTitulo" fill="#0078f7" fontSmoothingType="LCD" layoutX="45.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 35px;" text="Grupos" />
             <TextFlow fx:id="textFlow" layoutX="46.0" layoutY="30.0" prefHeight="17.0" prefWidth="136.0">
                <children>
                   <Text fx:id="textInicio" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Inicio&gt;" />
-                  <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Profesores" />
+                  <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Grupos" />
                </children>
             </TextFlow>
          </children></Pane>
       <Pane layoutX="550.0" layoutY="225.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fff;" styleClass="button-raised" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
          <children>
             <Text fill="#b5b5b5" fontSmoothingType="LCD" layoutX="547.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20px;" text="Selecciona una opción" />
-            <Button fx:id="buttonRegistro" layoutX="100.0" layoutY="130.0" mnemonicParsing="false" onAction="#irA" prefHeight="300.0" prefWidth="300.0" styleClass="button-raised" />
-            <Button fx:id="buttonModificacionDatos" layoutX="500.0" layoutY="130.0" mnemonicParsing="false" onAction="#irA" prefHeight="300.0" prefWidth="300.0" styleClass="button-raised" />
-            <Button fx:id="buttonUnidades" layoutX="900.0" layoutY="130.0" mnemonicParsing="false" onAction="#irA" prefHeight="300.0" prefWidth="300.0" styleClass="button-raised" />
-            <ImageView layoutX="188.0" layoutY="169.0">
-               <image>
-                  <Image url="@../imagenes/books.png" />
-               </image>
-            </ImageView>
-            <ImageView layoutX="589.0" layoutY="173.0">
+            <Button fx:id="buttonNuevoGrupo" layoutX="100.0" layoutY="130.0" mnemonicParsing="false" onAction="#irA" prefHeight="300.0" prefWidth="300.0" styleClass="button-raised" />
+            <Button fx:id="buttonAsignarProfesor" layoutX="500.0" layoutY="130.0" mnemonicParsing="false" onAction="#irA" prefHeight="300.0" prefWidth="300.0" styleClass="button-raised" />
+            <Button fx:id="buttonEditarGrupo" layoutX="900.0" layoutY="130.0" mnemonicParsing="false" onAction="#irA" prefHeight="300.0" prefWidth="300.0" styleClass="button-raised" />
+            <ImageView layoutX="986.0" layoutY="169.0">
                <image>
                   <Image url="@../imagenes/folder.png" />
                </image>
             </ImageView>
-            <ImageView layoutX="989.0" layoutY="173.0">
+            <Text fill="#0078f7" fontSmoothingType="LCD" layoutX="134.0" layoutY="339.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 27px;" text="Crear un Nuevo Grupo" textAlignment="CENTER" wrappingWidth="246.029296875" />
+            <Text fill="#0078f7" fontSmoothingType="LCD" layoutX="513.0" layoutY="339.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26px;" text="Asignar Profesores a un Grupo" textAlignment="CENTER" wrappingWidth="274.681672474974" />
+            <Text fill="#0078f7" layoutX="917.0" layoutY="339.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26px;" text="Editar Datos de un Grupo" textAlignment="CENTER" wrappingWidth="265.6816622713643" />
+            <ImageView fitHeight="163.0" fitWidth="183.0" layoutX="166.0" layoutY="169.0">
                <image>
-                  <Image url="@../imagenes/materias.png" />
+                  <Image url="@../imagenes/grupo.png" />
                </image>
             </ImageView>
-            <Text fill="#0078f7" fontSmoothingType="LCD" layoutX="141.0" layoutY="350.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 27px;" text="Registrar Profesor" />
-            <Text fill="#0078f7" fontSmoothingType="LCD" layoutX="513.0" layoutY="345.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26px;" text="Editar datos de profesores existentes" textAlignment="CENTER" wrappingWidth="274.681672474974" />
-            <Text fill="#0078f7" layoutX="908.0" layoutY="345.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 23px;" text="Unidades de Aprendizaje impartidas por profesores" textAlignment="CENTER" wrappingWidth="284.6816622713643" />
+            <ImageView layoutX="586.0" layoutY="169.0">
+               <image>
+                  <Image url="@../imagenes/grupos.png" />
+               </image>
+            </ImageView>
          </children></Pane>
    </children>
 </AnchorPane>

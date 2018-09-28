@@ -17,6 +17,9 @@ package jefeAcademia;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -61,16 +64,20 @@ public class EditarDatosProfesoresController implements Initializable {
     @FXML
     DatePicker datePickerNacimiento;
     
-    String idProfesor = "";
+    String nombre, paterno, materno, numero, fechaNacimiento, genero;
     
-    public EditarDatosProfesoresController(String idProfesor){
-        this.idProfesor = idProfesor;
+    public EditarDatosProfesoresController(String[] datos){
+        nombre = datos[1];
+        paterno = datos[2];
+        materno = datos[3];
+        genero = datos[4];
+        numero = datos[5];
+        fechaNacimiento = datos[6];
     }
     
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println(idProfesor);
         
         comboboxGenero.getItems().addAll(
                 "Masculino",
@@ -113,6 +120,20 @@ public class EditarDatosProfesoresController implements Initializable {
         textElegirProfesor.setOnMouseClicked((MouseEvent me) -> {
             irAElegirProfesores();
         });
+        
+        textfieldNombre.setText(nombre);
+        textfieldPaterno.setText(paterno);
+        textfieldMaterno.setText(materno);
+        textfieldNumero.setText(numero);
+        textfieldNumero.setEditable(false);
+        comboboxGenero.setValue(genero);
+        comboboxGenero.setEditable(false);
+        System.out.println(fechaNacimiento);
+        
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        formato = formato.withLocale(Locale.getDefault());
+        LocalDate nacimiento = LocalDate.parse(fechaNacimiento, formato);
+        datePickerNacimiento.setValue(nacimiento);
     }
     
     @FXML
