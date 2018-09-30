@@ -24,10 +24,16 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -35,12 +41,19 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import poliasistenciafx.ConsultarDatos;
+import poliasistenciafx.Huella;
+import poliasistenciafx.HuellaDigitalController;
 import poliasistenciafx.baseDeDatos;
 import poliasistenciafx.validaciones;
 
@@ -57,7 +70,7 @@ public class RegistrarProfesorController implements Initializable {
     @FXML
     Text textInicio, textProfesores;
     @FXML
-    Button buttonContinuar, buttonCancelar;
+    Button buttonContinuar, buttonCancelar, buttonAgregarHuella;
     @FXML
     Pane paneDatosPersonales, paneHuellaDigital;
     @FXML
@@ -66,12 +79,19 @@ public class RegistrarProfesorController implements Initializable {
     ComboBox comboboxGenero;
     @FXML
     DatePicker datePickerNacimiento;
+    @FXML
+    private TableView<Huella> tableviewHuellas;
+    ObservableList<Huella> datos;
 
     int pasoRegistro = 1, idPer = 0;
     String mensajeBase = "";
+    ConsultarDatos consultar;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        consultar = new ConsultarDatos();
+        datos =  FXCollections.observableArrayList();
+                
         comboboxGenero.getItems().addAll(
                 "Masculino",
                 "Femenino",
@@ -105,14 +125,14 @@ public class RegistrarProfesorController implements Initializable {
 
     @FXML
     public void ejecutarAccion(ActionEvent e) {
-        if (e.getSource().equals(buttonContinuar)) {
+        if (e.getSource().equals(buttonContinuar)){
             String nom, pat, mat, bol, fecha;
             int gen;
             nom = textfieldNombre.getText();
             pat = textfieldPaterno.getText();
             mat = textfieldMaterno.getText();
             bol = textfieldNumero.getText();
-            gen = comboboxGenero.getSelectionModel().getSelectedIndex();
+            gen = comboboxGenero.getSelectionModel().getSelectedIndex() + 1;
             LocalDate nacimiento = datePickerNacimiento.getValue();
             if(nacimiento == null)
                 fecha = "";
@@ -132,7 +152,7 @@ public class RegistrarProfesorController implements Initializable {
                                         //spGuardaDocente(in idT int,in g int, in pat nvarchar(250),in mat nvarchar(250), in nom nvarchar(250),
                                         //in fech date, in mail nvarchar(250),in numT nvarchar(15),in hu longblob)
                                         if (bol != null) {
-                                            ResultSet rs = bd.ejecuta("call spGuardaDocente(" + 3 + ", " + gen+1 + ", '" + pat + "', '" + mat
+                                            ResultSet rs = bd.ejecuta("call spGuardaDocente(" + 3 + ", " + gen + ", '" + pat + "', '" + mat
                                                     + "', '" + nom + "', '" + fecha + "', 'sinasignar@gmail.com', '" + bol + "');");
                                             while (rs.next()) {
                                                 idPer = rs.getInt("idP");
@@ -141,10 +161,11 @@ public class RegistrarProfesorController implements Initializable {
                                             System.out.println("IDP: " + idPer);
                                         }
                                     } catch (SQLException ex) {
-
+                                        Logger.getLogger(ConsultarDatos.class.getName()).log(Level.SEVERE, null, ex);
                                     }
                                     if (idPer > 0) {
                                         pasoRegistro++;
+                                        inicializarTabla();
                                         paneDatosPersonales.setVisible(false);
                                         paneHuellaDigital.setVisible(true);
                                         buttonCancelar.setText("Omitir");
@@ -176,8 +197,40 @@ public class RegistrarProfesorController implements Initializable {
             }
         }
 
+
         if (e.getSource().equals(buttonCancelar)) {
             irAProfesores();
+        }
+    }
+    
+    @FXML
+    public void mostrarRegistroHuella(ActionEvent e) throws IOException{
+        Stage stage = new Stage();
+        
+        HuellaDigitalController huella = new HuellaDigitalController(idPer);
+        FXMLLoader huellaDigital = new FXMLLoader(getClass().getResource("/poliasistenciafx/HuellaDigital.fxml"));
+        huellaDigital.setController(huella);
+        
+        Parent root = huellaDigital.load();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Huella Digital");
+        stage.getIcons().add(new Image("/imagenes/poliAsistencia.png"));
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(((Node)e.getSource()).getScene().getWindow());
+        stage.setOnHidden((WindowEvent evento) -> {
+            huella.cerrar();
+            actualizarTabla();
+        }); 
+        stage.showAndWait();
+        
+        
+    }
+    
+    @FXML
+    public void borrarHuella(MouseEvent click){
+        Huella huellax = tableviewHuellas.getSelectionModel().getSelectedItem();
+        if(huellax != null){
+            //borrar huella
         }
     }
 
@@ -228,5 +281,17 @@ public class RegistrarProfesorController implements Initializable {
         alert.setContentText(contexto);
         alert.showAndWait();
     }
-
+    
+    public void inicializarTabla(){
+        datos = consultar.obtenerHuellasDigitales(idPer);
+        tableviewHuellas.setItems(datos);
+    }
+    
+    public void actualizarTabla(){
+        datos.removeAll(datos);
+        datos = consultar.obtenerHuellasDigitales(idPer);
+        tableviewHuellas.setItems(datos);
+    }
+    
+    
 }

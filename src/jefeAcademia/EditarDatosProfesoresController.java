@@ -28,6 +28,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -35,10 +37,12 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -54,7 +58,7 @@ public class EditarDatosProfesoresController implements Initializable {
     @FXML
     Text textInicio, textProfesores, textElegirProfesor;
     @FXML
-    Button buttonHuella, buttonDatos;
+    Button buttonHuella, buttonDatos, buttonAgregarHuella;
     @FXML
     Pane paneDatosPersonales, paneHuellaDigital;
     @FXML
@@ -145,6 +149,18 @@ public class EditarDatosProfesoresController implements Initializable {
             paneHuellaDigital.setVisible(false);
             paneDatosPersonales.setVisible(true);
         }
+    }
+    
+    @FXML
+    public void mostrarRegistroHuella(ActionEvent e) throws IOException{
+        Stage stage = new Stage();
+        Parent root = FXMLLoader.load(EditarDatosProfesoresController.class.getResource("/poliasistenciafx/HuellaDigital.fxml"));
+        stage.setScene(new Scene(root));
+        stage.setTitle("Huella Digital");
+        stage.getIcons().add(new Image("/imagenes/poliAsistencia.png"));
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(((Node)e.getSource()).getScene().getWindow());
+        stage.showAndWait();
     }
     
     public void irAProfesores() {

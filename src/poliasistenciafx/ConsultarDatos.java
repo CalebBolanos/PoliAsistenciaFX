@@ -16,6 +16,9 @@
 package poliasistenciafx;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -83,6 +86,29 @@ public class ConsultarDatos {
             System.out.println(e.getMessage());
         }
         return datos;
+    }
+    
+    public ObservableList<Huella> obtenerHuellasDigitales(int idPer){
+        ObservableList<Huella> huellas = FXCollections.observableArrayList();
+        baseDeDatos bd = new baseDeDatos();
+        try {
+            bd.conectar();
+            ResultSet rs = bd.ejecuta("call spHuellasPersona("+idPer+");");
+            Huella huellax;
+            int i = 1; 
+            while(rs.next()){
+                huellax = new Huella();
+                huellax.setNombre("Huella "+i);
+                huellax.setId(Integer.toString(rs.getInt("idHuella")));
+                huellas.add(huellax);
+                huellax = null;
+                i++;
+            }
+            bd.cierraConexion();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultarDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return huellas;
     }
     
 }
