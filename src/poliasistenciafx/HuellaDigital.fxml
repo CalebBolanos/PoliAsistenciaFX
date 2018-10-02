@@ -4,6 +4,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
@@ -18,14 +19,27 @@
                   <Text fx:id="textAsistencia" fill="WHITE" stroke="WHITE" strokeLineJoin="ROUND" style="-fx-font-size: 80px; -fx-font-weight: bold;" styleClass="fuentePoliAsistencia" text="Asistencia" />
                </children>
             </TextFlow>
-            <ImageView fitHeight="168.0" fitWidth="164.0" layoutX="286.0" layoutY="187.0">
+            <ImageView fx:id="imageviewHuella" fitHeight="168.0" fitWidth="164.0" layoutX="286.0" layoutY="187.0">
                <image>
                   <Image url="@../imagenes/fingerprint.png" />
                </image>
             </ImageView>
-            <Text fill="WHITE" fontSmoothingType="LCD" layoutX="104.0" layoutY="476.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20px;" styleClass="fuentePoliAsistencia" text="Coloca el dedo en el sensor y levantalo cuatro veces seguidas para registrarte" textAlignment="CENTER" wrappingWidth="549.0966796875" />
-            <Text fill="WHITE" layoutX="183.0" layoutY="440.0" stroke="WHITE" strokeLineJoin="ROUND" style="-fx-font-size: 35px;" styleClass="fuentePoliAsistencia" text="Coloca tu dedo en el sensor" />
             <Button fx:id="buttonCancelar" layoutX="28.0" layoutY="19.0" mnemonicParsing="false" onAction="#cerrarVentana" style="-fx-text-fill: #f44242;" text="Cancelar" />
+            <HBox alignment="CENTER" layoutY="384.0" prefHeight="44.0" prefWidth="759.0">
+               <children>
+                  <Text fx:id="textIndicaciones" fill="WHITE" stroke="WHITE" strokeLineJoin="ROUND" style="-fx-font-size: 35px;" styleClass="fuentePoliAsistencia" text="Coloca tu dedo en el sensor" textAlignment="CENTER" wrappingWidth="696.587890625" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" layoutY="439.0" prefHeight="50.0" prefWidth="759.0">
+               <children>
+                  <Text fx:id="textEstatus" fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20px;" styleClass="fuentePoliAsistencia" text="Coloca el dedo en el sensor y levantalo cuatro veces seguidas para registrarte" textAlignment="CENTER" wrappingWidth="549.0966796875" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="-1.0" layoutY="489.0" prefHeight="19.0" prefWidth="759.0">
+               <children>
+                  <Text fx:id="textError" fill="RED" stroke="RED" strokeLineCap="ROUND" style="-fx-font-size: 19px;" styleClass="fuentePoliAsistencia" text="El sensor no pudo identificar tu huella. Vuelve a intentarlo" visible="false" />
+               </children>
+            </HBox>
          </children></Pane>
    </children>
 </AnchorPane>

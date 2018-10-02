@@ -42,12 +42,21 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.Glow;
+import javafx.scene.effect.SepiaTone;
+import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  * FXML Controller class
@@ -71,6 +80,17 @@ public class HuellaDigitalController implements Initializable {
     public DPFPFeatureSet featuresverificacion;
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     public int idPer = 0;
+    boolean capturaHuella = false;
+    boolean huellaGuardada = false;
+    Glow glow;
+    SepiaTone sepia;
+    Timeline timelineEntrada, timelineBlanco, timelineSalidaVerde, timelineSalidaRojo;
+    ColorAdjust rojo, verde;
+    
+    @FXML
+    Text textIndicaciones, textEstatus, textError;
+    @FXML
+    ImageView imageviewHuella;
     
     public HuellaDigitalController(int idPer){
         this.idPer = idPer;
@@ -92,6 +112,7 @@ public class HuellaDigitalController implements Initializable {
         Lector.startCapture();
         System.out.println("Utilizando el Lector de Huella Dactilar");
         estatusGuardarHuellas();
+        inicializarEfectos();
     }
 
     public void cerrar() {
@@ -134,12 +155,14 @@ public class HuellaDigitalController implements Initializable {
             public void fingerTouched(final DPFPSensorEvent e) {
                 Platform.runLater(() -> {
                     System.out.println("El dedo ha sido colocado sobre el Lector de Huella");
+                    efectosDedoColocado();
                 });
             }
             @Override
             public void fingerGone(final DPFPSensorEvent e) {
                 Platform.runLater(() -> {
                     System.out.println("El dedo ha sido quitado del Lector de Huella");
+                    efectosDedoQuitado();
                 });
             }
         });
@@ -159,7 +182,12 @@ public class HuellaDigitalController implements Initializable {
     }
 
     public void estatusGuardarHuellas() {
-        System.out.println("Muestra de Huellas Necesarias para Guardar Template " + Reclutador.getFeaturesNeeded());
+        if(Reclutador.getFeaturesNeeded() == 4){
+            textEstatus.setText("Coloca el dedo en el sensor y levantalo cuatro veces seguidas para registrarte");
+        }
+        else{
+            textEstatus.setText("Huellas necesarias para guardar tu huella digital: " + Reclutador.getFeaturesNeeded());
+        }    
     }
 
     public void procesarCaptura(DPFPSample sample) throws SQLException {
@@ -168,9 +196,12 @@ public class HuellaDigitalController implements Initializable {
         if (featuresinscripcion != null) {
             try {
                 System.out.println("Las Caracteristicas de la Huella han sido creada");
+                efectosHuellaEscaneada();
                 Reclutador.addFeatures(featuresinscripcion);
             } catch (DPFPImageQualityException ex) {
                 System.err.println("Error: " + ex.getMessage());
+                efectosHuellaIrregular();
+                //rojo
             } finally {
                 estatusGuardarHuellas();
                 switch (Reclutador.getTemplateStatus()) {
@@ -186,6 +217,7 @@ public class HuellaDigitalController implements Initializable {
                         estatusGuardarHuellas();
                         setTemplate(null);
                         System.out.println("La Plantilla de la Huella no pudo ser creada, Repita el Proceso");
+                        textError.setText("La plantilla de la huella no pudo ser creada, existen varias irregularidades, repite el proceso");
                         Lector.startCapture();
                         System.out.println("Utilizando el Lector de Huella Dactilar");
                         break;
@@ -219,6 +251,95 @@ public class HuellaDigitalController implements Initializable {
          bd.cierraConexion();
          Stage stageActual = (Stage) buttonCancelar.getScene().getWindow();
          stageActual.close();
+    }
+    
+    public void inicializarEfectos(){
+        glow = new Glow(0);
+        
+        rojo = new ColorAdjust();
+        rojo.setContrast(0.0);
+        rojo.setHue(0.1);
+        rojo.setBrightness(0.1);
+        rojo.setSaturation(0.97);
+        rojo.setInput(glow);
+        
+        verde = new ColorAdjust();
+        verde.setContrast(0.0);
+        verde.setHue(0.5);
+        verde.setBrightness(0.1);
+        verde.setSaturation(.97);
+        verde.setInput(glow);
+        
+        sepia = new SepiaTone(0);
+        sepia.setInput(glow);
+        imageviewHuella.setEffect(sepia);
+        
+        timelineEntrada = new Timeline(
+            new KeyFrame(Duration.ZERO, 
+                    new KeyValue(glow.levelProperty(), 0),
+                    new KeyValue(sepia.levelProperty(), 0)),
+            new KeyFrame(Duration.seconds(.2),
+                    new KeyValue(glow.levelProperty(), 1),
+                    new KeyValue(sepia.levelProperty(),1))
+        );
+        timelineSalidaVerde = new Timeline(
+            new KeyFrame(Duration.ZERO, 
+                    new KeyValue(glow.levelProperty(), 1),
+                    new KeyValue(verde.brightnessProperty(), 1)),
+            new KeyFrame(Duration.seconds(1),
+                    new KeyValue(glow.levelProperty(), 0),
+                    new KeyValue(verde.brightnessProperty(),0))
+        );
+        timelineSalidaRojo = new Timeline(
+            new KeyFrame(Duration.ZERO, 
+                    new KeyValue(glow.levelProperty(), 1),
+                    new KeyValue(rojo.brightnessProperty(), 1)),
+            new KeyFrame(Duration.seconds(1),
+                    new KeyValue(glow.levelProperty(), 0),
+                    new KeyValue(rojo.brightnessProperty(),0))
+        );
+        timelineBlanco = new Timeline(
+            new KeyFrame(Duration.ZERO, 
+                    new KeyValue(glow.levelProperty(), 0.7),
+                    new KeyValue(sepia.levelProperty(), 1)),
+            new KeyFrame(Duration.seconds(1),
+                    new KeyValue(glow.levelProperty(), 0),
+                    new KeyValue(sepia.levelProperty(),0))
+        );
+    }
+    
+    public void efectosDedoColocado(){
+        textError.setVisible(false);
+        textError.setText("El sensor no pudo identificar tu huella. Vuelve a intentarlo");
+        textIndicaciones.setText("Escaneando huella...");
+        imageviewHuella.setEffect(sepia);
+        timelineEntrada.play();
+        capturaHuella = false;
+    }
+    
+    public void efectosDedoQuitado(){
+        textIndicaciones.setText("Vuelve a tocar el sesor");
+        imageviewHuella.setEffect(sepia);
+        timelineBlanco.play();
+        if(!capturaHuella){
+            imageviewHuella.setEffect(rojo);
+            timelineSalidaRojo.play();
+            textError.setVisible(true);
+            textIndicaciones.setText("Levanta el dedo y vuelve a tocar el sesor");
+        }
+    }
+    
+    public void efectosHuellaEscaneada(){
+        textIndicaciones.setText("Huella escaneada, levanta el dedo");
+        capturaHuella = true;
+        imageviewHuella.setEffect(verde);
+        timelineSalidaVerde.play();
+    }
+    
+    public void efectosHuellaIrregular(){
+        capturaHuella = false;
+        imageviewHuella.setEffect(rojo);
+        timelineSalidaRojo.play();
     }
 
     @FXML
