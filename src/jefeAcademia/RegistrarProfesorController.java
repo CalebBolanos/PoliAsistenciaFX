@@ -26,9 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -70,7 +68,7 @@ public class RegistrarProfesorController implements Initializable {
     @FXML
     Text textInicio, textProfesores;
     @FXML
-    Button buttonContinuar, buttonCancelar, buttonAgregarHuella;
+    Button buttonContinuar, buttonCancelar, buttonAgregarHuella, buttonGuardar;
     @FXML
     Pane paneDatosPersonales, paneHuellaDigital;
     @FXML
@@ -126,80 +124,30 @@ public class RegistrarProfesorController implements Initializable {
     @FXML
     public void ejecutarAccion(ActionEvent e) {
         if (e.getSource().equals(buttonContinuar)){
-            String nom, pat, mat, bol, fecha;
-            int gen;
-            nom = textfieldNombre.getText();
-            pat = textfieldPaterno.getText();
-            mat = textfieldMaterno.getText();
-            bol = textfieldNumero.getText();
-            gen = comboboxGenero.getSelectionModel().getSelectedIndex() + 1;
-            LocalDate nacimiento = datePickerNacimiento.getValue();
-            if(nacimiento == null)
-                fecha = "";
-            else
-                fecha = nacimiento.toString();
-            System.out.println(fecha);
-            validaciones val = new validaciones();
-            if (val.soloLet(nom, "el nombre", 200)) {
-                if (val.soloLet(pat, "el apellido paterno", 200)) {
-                    if (val.soloLet(mat, "el apellido materno", 200)) {
-                        if (val.sinVacios(bol, "el número de trabajador", 15)) {
-                            if (val.validarFecha(fecha)) {
-                                if (gen != -1) {
-                                    baseDeDatos bd = new baseDeDatos();
-                                    try {
-                                        bd.conectar();
-                                        //spGuardaDocente(in idT int,in g int, in pat nvarchar(250),in mat nvarchar(250), in nom nvarchar(250),
-                                        //in fech date, in mail nvarchar(250),in numT nvarchar(15),in hu longblob)
-                                        if (bol != null) {
-                                            ResultSet rs = bd.ejecuta("call spGuardaDocente(" + 3 + ", " + gen + ", '" + pat + "', '" + mat
-                                                    + "', '" + nom + "', '" + fecha + "', 'sinasignar@gmail.com', '" + bol + "');");
-                                            while (rs.next()) {
-                                                idPer = rs.getInt("idP");
-                                                mensajeBase = rs.getString("msj");
-                                            }
-                                            System.out.println("IDP: " + idPer);
-                                        }
-                                    } catch (SQLException ex) {
-                                        Logger.getLogger(ConsultarDatos.class.getName()).log(Level.SEVERE, null, ex);
-                                    }
-                                    if (idPer > 0) {
-                                        pasoRegistro++;
-                                        inicializarTabla();
-                                        paneDatosPersonales.setVisible(false);
-                                        paneHuellaDigital.setVisible(true);
-                                        buttonCancelar.setText("Omitir");
-                                    }
-
-                                } else {
-                                    comboboxGenero.requestFocus();
-                                    crearDialogo("Error", "Seleccione un genero", null);
-                                }
-                            } else {
-                                datePickerNacimiento.requestFocus();
-                                crearDialogo("Error", "Introduzca una fecha valida", null);
-                            }
-                        } else {
-                            textfieldNumero.requestFocus();
-                            crearDialogo("Error", val.err(), null);
-                        }
-                    } else {
-                        textfieldMaterno.requestFocus();
-                        crearDialogo("Error", val.err(), null);
-                    }
-                } else {
-                    crearDialogo("Error", val.err(), null);
-                    textfieldPaterno.requestFocus();
-                }
-            } else {
-                crearDialogo("Error", val.err(), null);
-                textfieldNombre.requestFocus();
-            }
+            registrarProfesor();
         }
-
 
         if (e.getSource().equals(buttonCancelar)) {
             irAProfesores();
+        }
+        
+        if(e.getSource().equals(buttonGuardar)){
+            switch(buttonGuardar.getText()){
+                case "Omitir":
+                    omitirGuardarHuella();
+                    break;
+                case "Guardar y Salir":
+                    Stage stageRegistrarProfesor = (Stage) (textProfesores.getScene().getWindow());
+                    FXMLLoader Profesores = new FXMLLoader(getClass().getResource("Profesores.fxml"));
+                    try {
+                        Scene sceneProfesores = new Scene(Profesores.load());
+                        stageRegistrarProfesor.setScene(sceneProfesores);
+                    } catch (IOException ex) {
+                        Logger.getLogger(ProfesoresController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    break;
+                    
+            }
         }
     }
     
@@ -230,7 +178,79 @@ public class RegistrarProfesorController implements Initializable {
     public void borrarHuella(MouseEvent click){
         Huella huellax = tableviewHuellas.getSelectionModel().getSelectedItem();
         if(huellax != null){
-            //borrar huella
+            borrarHuellaDigital(Integer.parseInt(huellax.getId()));
+        }
+    }
+    
+    public void registrarProfesor(){
+        String nom, pat, mat, bol, fecha;
+        int gen;
+        nom = textfieldNombre.getText();
+        pat = textfieldPaterno.getText();
+        mat = textfieldMaterno.getText();
+        bol = textfieldNumero.getText();
+        gen = comboboxGenero.getSelectionModel().getSelectedIndex() + 1;
+        LocalDate nacimiento = datePickerNacimiento.getValue();
+        if(nacimiento == null)
+            fecha = "";
+        else
+            fecha = nacimiento.toString();
+        System.out.println(fecha);
+        validaciones val = new validaciones();
+        if (val.soloLet(nom, "el nombre", 200)) {
+            if (val.soloLet(pat, "el apellido paterno", 200)) {
+                if (val.soloLet(mat, "el apellido materno", 200)) {
+                    if (val.sinVacios(bol, "el número de trabajador", 15)) {
+                        if (val.validarFecha(fecha)) {
+                            if (gen != -1) {
+                                baseDeDatos bd = new baseDeDatos();
+                                try {
+                                    bd.conectar();
+                                    //spGuardaDocente(in idT int,in g int, in pat nvarchar(250),in mat nvarchar(250), in nom nvarchar(250),
+                                    //in fech date, in mail nvarchar(250),in numT nvarchar(15),in hu longblob)
+                                    if (bol != null) {
+                                        ResultSet rs = bd.ejecuta("call spGuardaDocente(" + 3 + ", " + gen + ", '" + pat + "', '" + mat
+                                                + "', '" + nom + "', '" + fecha + "', 'sinasignar@gmail.com', '" + bol + "');");
+                                        while (rs.next()) {
+                                            idPer = rs.getInt("idP");
+                                            mensajeBase = rs.getString("msj");
+                                        }
+                                        System.out.println("IDP: " + idPer);
+                                    }
+                                } catch (SQLException ex) {
+                                    Logger.getLogger(ConsultarDatos.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                if (idPer > 0) {
+                                    pasoRegistro++;
+                                    inicializarTabla();
+                                    paneDatosPersonales.setVisible(false);
+                                    paneHuellaDigital.setVisible(true);
+                                    buttonCancelar.setVisible(false);
+                                }
+
+                            } else {
+                                comboboxGenero.requestFocus();
+                                crearDialogo("Error", "Seleccione un genero", null);
+                            }
+                        } else {
+                            datePickerNacimiento.requestFocus();
+                            crearDialogo("Error", "Introduzca una fecha valida", null);
+                        }
+                    } else {
+                        textfieldNumero.requestFocus();
+                        crearDialogo("Error", val.err(), null);
+                    }
+                } else {
+                    textfieldMaterno.requestFocus();
+                    crearDialogo("Error", val.err(), null);
+                }
+            } else {
+                crearDialogo("Error", val.err(), null);
+                textfieldPaterno.requestFocus();
+            }
+        } else {
+            crearDialogo("Error", val.err(), null);
+            textfieldNombre.requestFocus();
         }
     }
 
@@ -239,6 +259,54 @@ public class RegistrarProfesorController implements Initializable {
         alert.setTitle("Confirmar accion");
         alert.setHeaderText("Estas seguro de que quieres cancelar el registro?");
         alert.setContentText("Se perderan los datos ingresados");
+        Optional<ButtonType> resultado = alert.showAndWait();
+        if (resultado.get() == ButtonType.OK) {
+            Stage stageRegistrarProfesor = (Stage) (textProfesores.getScene().getWindow());
+            FXMLLoader Profesores = new FXMLLoader(getClass().getResource("Profesores.fxml"));
+            try {
+                Scene sceneProfesores = new Scene(Profesores.load());
+                stageRegistrarProfesor.setScene(sceneProfesores);
+            } catch (IOException ex) {
+                Logger.getLogger(ProfesoresController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+
+        }
+    }
+    
+    public void borrarHuellaDigital(int idHuella){
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Confirmar acción");
+        alert.setHeaderText("¿Estas seguro de que quieres borrar esta huella digital?");
+        alert.setContentText("Esta acción no se puede deshacer");
+        Optional<ButtonType> resultado = alert.showAndWait();
+        if (resultado.get() == ButtonType.OK) {
+            if(consultar.borrarHuella(idHuella)){
+                Alert alertOk = new Alert(AlertType.INFORMATION);
+                alertOk.setTitle("PoliAsistencia");
+                alertOk.setHeaderText(null);
+                alertOk.setContentText("Huella Borrada");
+                alertOk.showAndWait();
+                actualizarTabla();
+            }
+            else{
+                Alert alertError = new Alert(AlertType.ERROR);
+                alertError.setTitle("PoliAsistencia");
+                alertError.setHeaderText("Error al borrar la huella digital");
+                alertError.setContentText("Lo sentimos, pero no se puede borrar la huella digital");
+                alertError.showAndWait();
+                actualizarTabla();
+            }
+        } else {
+
+        }
+    }
+    
+    public void omitirGuardarHuella() {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Confirmar accion");
+        alert.setHeaderText("Estas seguro de que quieres omitir el registro de las huellas digitales?");
+        alert.setContentText("Puedes configurar tus hellas digitales posteriormente en el apartado de modificacón de datos");
         Optional<ButtonType> resultado = alert.showAndWait();
         if (resultado.get() == ButtonType.OK) {
             Stage stageRegistrarProfesor = (Stage) (textProfesores.getScene().getWindow());
@@ -291,6 +359,20 @@ public class RegistrarProfesorController implements Initializable {
         datos.removeAll(datos);
         datos = consultar.obtenerHuellasDigitales(idPer);
         tableviewHuellas.setItems(datos);
+        if(!datos.isEmpty()){
+            buttonGuardar.setText("Guardar y Salir");
+            buttonGuardar.setStyle("-fx-text-fill: #2196F3");
+            if(datos.size() == 10){
+                buttonAgregarHuella.setDisable(true);
+            }
+            else{
+                buttonAgregarHuella.setDisable(false);
+            }
+        }
+        else{
+            buttonGuardar.setText("Omitir");
+            buttonGuardar.setStyle("-fx-text-fill:  #f44242");
+        }
     }
     
     

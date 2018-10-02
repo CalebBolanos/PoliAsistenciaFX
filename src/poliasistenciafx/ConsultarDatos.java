@@ -52,6 +52,24 @@ public class ConsultarDatos {
          return datos;
     }
     
+    public int obtenerIdPersonaProfesor(String numero){
+        int idPersona = 0;
+        baseDeDatos bd = new baseDeDatos();
+        try {
+            bd.conectar();
+            ResultSet rs = bd.ejecuta("call spIdPersonaProfesor('"+numero+"');");
+            if(rs.next()){
+                if(rs.getString("msj").equals("ok")){
+                    idPersona = rs.getInt("idPer");
+                }
+            }
+            bd.cierraConexion();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultarDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return idPersona;
+    }
+    
     public String[] obtenerPersona(String numero){
         String datos[] = new String[7];
         String genero="";
@@ -109,6 +127,50 @@ public class ConsultarDatos {
             Logger.getLogger(ConsultarDatos.class.getName()).log(Level.SEVERE, null, ex);
         }
         return huellas;
+    }
+    
+    public boolean borrarHuella(int idHuella){
+        boolean huellaBorrada = false;
+        baseDeDatos bd = new baseDeDatos();
+        try {
+            bd.conectar();
+            ResultSet rs = bd.ejecuta("call spBorrarHuella("+idHuella+");");
+            if(rs.next()){
+                if(rs.getString("msj").equals("ok")){
+                    huellaBorrada = true;
+                }
+            }
+            bd.cierraConexion();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultarDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return huellaBorrada;
+    }
+    
+    public int editarDatosProfesores(String numeroAntiguo, String numeroNuevo, String nombre, String paterno, String materno, String fecha){
+        int id = 0;
+        baseDeDatos bd = new baseDeDatos();
+        try {
+            bd.conectar();
+            ResultSet rs = bd.ejecuta("call spEditaProfesor('"+numeroAntiguo+"', '"+numeroNuevo+"', '"+nombre+"', '"+paterno+"', '"+materno+"', '"+fecha+"');");
+            if(rs.next()){
+                switch (rs.getString("msj")){
+                    case "ok":
+                        id = rs.getInt("idP");
+                        break;
+                    case "Ya existe un profesor con ese número de trabajador":
+                        id = -1;
+                        break;
+                    case "No se encuentra la persona":
+                        id = -2;
+                        break;
+                }
+            }
+            bd.cierraConexion();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultarDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id;
     }
     
 }

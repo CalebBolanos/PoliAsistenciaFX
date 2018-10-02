@@ -24,6 +24,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -36,6 +38,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -44,6 +47,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import poliasistenciafx.ConsultarDatos;
+import poliasistenciafx.Huella;
+import poliasistenciafx.HuellaDigitalController;
+import poliasistenciafx.validaciones;
 
 /**
  * FXML Controller class
@@ -58,7 +66,7 @@ public class EditarDatosProfesoresController implements Initializable {
     @FXML
     Text textInicio, textProfesores, textElegirProfesor;
     @FXML
-    Button buttonHuella, buttonDatos, buttonAgregarHuella;
+    Button buttonHuella, buttonDatos, buttonAgregarHuella, buttonGuardar;
     @FXML
     Pane paneDatosPersonales, paneHuellaDigital;
     @FXML
@@ -67,8 +75,13 @@ public class EditarDatosProfesoresController implements Initializable {
     ComboBox comboboxGenero;
     @FXML
     DatePicker datePickerNacimiento;
+    @FXML
+    private TableView<Huella> tableviewHuellas;
+    ObservableList<Huella> datos;
     
     String nombre, paterno, materno, numero, fechaNacimiento, genero;
+    int idPer = 0;
+    ConsultarDatos consultar;
     
     public EditarDatosProfesoresController(String[] datos){
         nombre = datos[1];
@@ -77,11 +90,15 @@ public class EditarDatosProfesoresController implements Initializable {
         genero = datos[4];
         numero = datos[5];
         fechaNacimiento = datos[6];
+        consultar = new ConsultarDatos();
+        idPer = consultar.obtenerIdPersonaProfesor(numero);
+        System.out.println(idPer);
     }
     
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        datos =  FXCollections.observableArrayList();
         
         comboboxGenero.getItems().addAll(
                 "Masculino",
@@ -129,8 +146,7 @@ public class EditarDatosProfesoresController implements Initializable {
         textfieldPaterno.setText(paterno);
         textfieldMaterno.setText(materno);
         textfieldNumero.setText(numero);
-        textfieldNumero.setEditable(false);
-        comboboxGenero.setValue(genero);
+        comboboxGenero.setValue(generoString(Integer.parseInt(genero)));
         comboboxGenero.setEditable(false);
         System.out.println(fechaNacimiento);
         
@@ -143,6 +159,7 @@ public class EditarDatosProfesoresController implements Initializable {
     @FXML
     public void cambiarPane(ActionEvent e){
         if(e.getSource().equals(buttonHuella)){
+            inicializarTabla();
             paneDatosPersonales.setVisible(false);
             paneHuellaDigital.setVisible(true);
         }else if(e.getSource().equals(buttonDatos)){
@@ -152,15 +169,159 @@ public class EditarDatosProfesoresController implements Initializable {
     }
     
     @FXML
+    public void guardarDatos(ActionEvent e){
+        String nom, pat, mat, bol, fecha;
+        int gen;
+        nom = textfieldNombre.getText();
+        pat = textfieldPaterno.getText();
+        mat = textfieldMaterno.getText();
+        bol = textfieldNumero.getText();
+        gen = comboboxGenero.getSelectionModel().getSelectedIndex() + 1;
+        LocalDate nacimiento = datePickerNacimiento.getValue();
+        if(nacimiento == null)
+            fecha = "";
+        else
+            fecha = nacimiento.toString();
+        System.out.println(fecha);
+        validaciones val = new validaciones();
+        if (val.soloLet(nom, "el nombre", 200)) {
+            if (val.soloLet(pat, "el apellido paterno", 200)) {
+                if (val.soloLet(mat, "el apellido materno", 200)) {
+                    if (val.sinVacios(bol, "el número de trabajador", 15)) {
+                        if (val.validarFecha(fecha)) {
+                            if (gen != -1) {
+                                int id = consultar.editarDatosProfesores(numero, bol, nom, pat, mat, fecha);
+                                if( id > 0){
+                                    Alert alertOk = new Alert(Alert.AlertType.INFORMATION);
+                                    alertOk.setTitle("PoliAsistencia");
+                                    alertOk.setHeaderText(null);
+                                    alertOk.setContentText("Datos Guardados");
+                                    alertOk.showAndWait();
+                                    Stage stageEditarProfesor = (Stage) (textProfesores.getScene().getWindow());
+                                    FXMLLoader Profesores = new FXMLLoader(getClass().getResource("Profesores.fxml"));
+                                    try {
+                                        Scene sceneProfesores = new Scene(Profesores.load());
+                                        stageEditarProfesor.setScene(sceneProfesores);
+                                    } catch (IOException ex) {
+                                        Logger.getLogger(ProfesoresController.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                }
+                                else{
+                                    Alert alertError = new Alert(Alert.AlertType.ERROR);
+                                    alertError.setTitle("PoliAsistencia");
+                                    alertError.setHeaderText("Error al guardar datos");
+                                    switch(id){
+                                        case -1:
+                                            alertError.setContentText("Ya existe un profesor con ese número de trabajador");
+                                            break;
+                                        case -2:
+                                            alertError.setContentText("No se encuentra la persona");
+                                            break;
+                                    }
+                                    alertError.showAndWait();
+                                }
+                            } else {
+                                comboboxGenero.requestFocus();
+                                crearDialogo("Error", "Seleccione un genero", null);
+                            }
+                        } else {
+                            datePickerNacimiento.requestFocus();
+                            crearDialogo("Error", "Introduzca una fecha valida", null);
+                        }
+                    } else {
+                        textfieldNumero.requestFocus();
+                        crearDialogo("Error", val.err(), null);
+                    }
+                } else {
+                    textfieldMaterno.requestFocus();
+                    crearDialogo("Error", val.err(), null);
+                }
+            } else {
+                crearDialogo("Error", val.err(), null);
+                textfieldPaterno.requestFocus();
+            }
+        } else {
+            crearDialogo("Error", val.err(), null);
+            textfieldNombre.requestFocus();
+        }
+                            
+                            
+    }
+    
+    @FXML
     public void mostrarRegistroHuella(ActionEvent e) throws IOException{
         Stage stage = new Stage();
-        Parent root = FXMLLoader.load(EditarDatosProfesoresController.class.getResource("/poliasistenciafx/HuellaDigital.fxml"));
+        
+        HuellaDigitalController huella = new HuellaDigitalController(idPer);
+        FXMLLoader huellaDigital = new FXMLLoader(getClass().getResource("/poliasistenciafx/HuellaDigital.fxml"));
+        huellaDigital.setController(huella);
+        
+        Parent root = huellaDigital.load();
         stage.setScene(new Scene(root));
         stage.setTitle("Huella Digital");
         stage.getIcons().add(new Image("/imagenes/poliAsistencia.png"));
         stage.initModality(Modality.WINDOW_MODAL);
         stage.initOwner(((Node)e.getSource()).getScene().getWindow());
+        stage.setOnHidden((WindowEvent evento) -> {
+            huella.cerrar();
+            actualizarTabla();
+        }); 
         stage.showAndWait();
+    }
+    
+    @FXML
+    public void borrarHuella(MouseEvent click){
+        Huella huellax = tableviewHuellas.getSelectionModel().getSelectedItem();
+        if(huellax != null){
+            borrarHuellaDigital(Integer.parseInt(huellax.getId()));
+        }
+    }
+    
+    public void borrarHuellaDigital(int idHuella){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmar acción");
+        alert.setHeaderText("¿Estas seguro de que quieres borrar esta huella digital?");
+        alert.setContentText("Esta acción no se puede deshacer");
+        Optional<ButtonType> resultado = alert.showAndWait();
+        if (resultado.get() == ButtonType.OK) {
+            if(consultar.borrarHuella(idHuella)){
+                Alert alertOk = new Alert(Alert.AlertType.INFORMATION);
+                alertOk.setTitle("PoliAsistencia");
+                alertOk.setHeaderText(null);
+                alertOk.setContentText("Huella Borrada");
+                alertOk.showAndWait();
+                actualizarTabla();
+            }
+            else{
+                Alert alertError = new Alert(Alert.AlertType.ERROR);
+                alertError.setTitle("PoliAsistencia");
+                alertError.setHeaderText("Error al borrar la huella digital");
+                alertError.setContentText("Lo sentimos, pero no se puede borrar la huella digital");
+                alert.showAndWait();
+                actualizarTabla();
+            }
+        } else {
+
+        }
+    }
+    
+    public void inicializarTabla(){
+        datos = consultar.obtenerHuellasDigitales(idPer);
+        tableviewHuellas.setItems(datos);
+    }
+    
+    public void actualizarTabla(){
+        datos.removeAll(datos);
+        datos = consultar.obtenerHuellasDigitales(idPer);
+        tableviewHuellas.setItems(datos);
+        if(!datos.isEmpty()){
+            if(datos.size() == 10){
+                buttonAgregarHuella.setDisable(true);
+            }
+            else{
+                buttonAgregarHuella.setDisable(false);
+            }
+        }
     }
     
     public void irAProfesores() {
@@ -224,7 +385,18 @@ public class EditarDatosProfesoresController implements Initializable {
     }
     
     
-
+    public String generoString(int idGenero){
+        switch(idGenero){
+            case 1:
+                return "Masculino";
+            case 2:
+                return "Femenino";
+            case 3:
+                return "Femenino"; 
+        }
+        return "";
+    }
+    
     public void crearDialogo(String titulo, String header, String contexto) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(titulo);

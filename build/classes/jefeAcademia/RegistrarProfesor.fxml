@@ -27,7 +27,7 @@
             </TextFlow>
             <Button fx:id="buttonCancelar" layoutX="1135.0" layoutY="31.0" mnemonicParsing="false" onAction="#ejecutarAccion" style="-fx-text-fill: #f44242;" text="Cancelar Registro" />
          </children></Pane>
-      <Pane fx:id="paneDatosPersonales" layoutX="550.0" layoutY="225.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fff;" styleClass="button-raised" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+      <Pane fx:id="paneDatosPersonales" layoutX="550.0" layoutY="225.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fff;" styleClass="button-raised" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
          <children>
             <TextField fx:id="textfieldNombre" layoutX="373.0" layoutY="162.0" prefHeight="34.0" prefWidth="500.0" promptText="Nombre" />
             <TextField fx:id="textfieldPaterno" layoutX="373.0" layoutY="229.0" prefWidth="240.0" promptText="Apelllido Paterno" />
@@ -40,7 +40,7 @@
             <Line endX="400.0" layoutX="474.0" layoutY="112.0" startX="-100.0" stroke="#b5b5b5" />
          </children>
       </Pane>
-      <Pane fx:id="paneHuellaDigital" prefHeight="200.0" prefWidth="200.0" styleClass="button-raised" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+      <Pane fx:id="paneHuellaDigital" prefHeight="200.0" prefWidth="200.0" styleClass="button-raised" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
          <children>
             <Text fill="#686868" layoutX="373.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 27px;" text="Configurar Huellas Digitales" />
             <Line endX="400.0" layoutX="474.0" layoutY="112.0" startX="-100.0" stroke="#b5b5b5" />
@@ -57,7 +57,7 @@
               </columns>
             </TableView>
             <Button fx:id="buttonAgregarHuella" layoutX="208.0" layoutY="490.0" mnemonicParsing="false" onAction="#mostrarRegistroHuella" style="-fx-text-fill: #07c401;" styleClass="button-raised" text="Agregar una Huella Digital" />
-            <Button fx:id="buttonGuardar" layoutX="974.0" layoutY="490.0" mnemonicParsing="false" styleClass="button-raised" text="Guardar y Salir" />
+            <Button fx:id="buttonGuardar" layoutX="963.0" layoutY="490.0" mnemonicParsing="false" onAction="#ejecutarAccion" prefHeight="40.0" prefWidth="129.0" style="-fx-text-fill: #f44242;" styleClass="button-raised" text="Omitir" />
          </children>
       </Pane>
    </children>

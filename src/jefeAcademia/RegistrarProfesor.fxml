@@ -57,7 +57,7 @@
               </columns>
             </TableView>
             <Button fx:id="buttonAgregarHuella" layoutX="208.0" layoutY="490.0" mnemonicParsing="false" onAction="#mostrarRegistroHuella" style="-fx-text-fill: #07c401;" styleClass="button-raised" text="Agregar una Huella Digital" />
-            <Button fx:id="buttonGuardar" layoutX="974.0" layoutY="490.0" mnemonicParsing="false" styleClass="button-raised" text="Guardar y Salir" />
+            <Button fx:id="buttonGuardar" layoutX="963.0" layoutY="490.0" mnemonicParsing="false" onAction="#ejecutarAccion" prefHeight="40.0" prefWidth="129.0" style="-fx-text-fill: #f44242;" styleClass="button-raised" text="Omitir" />
          </children>
       </Pane>
    </children>
