@@ -15,6 +15,7 @@
  */
 package poliasistenciafx;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
@@ -23,6 +24,7 @@ import javafx.beans.property.SimpleStringProperty;
  */
 public final class Unidad {
     
+    private final SimpleIntegerProperty idUnidad = new SimpleIntegerProperty(0);
     private final SimpleStringProperty unidad = new SimpleStringProperty("");
     private final SimpleStringProperty lunes = new SimpleStringProperty("");
     private final SimpleStringProperty martes = new SimpleStringProperty("");
@@ -31,10 +33,11 @@ public final class Unidad {
     private final SimpleStringProperty viernes = new SimpleStringProperty("");
     
     public Unidad(){
-        this("", "", "", "", "", "");
+        this(0, "", "", "", "", "", "");
     }
     
-    public Unidad(String unidad, String lunes, String martes, String miercoles, String jueves, String viernes){
+    public Unidad(int idUnidad, String unidad, String lunes, String martes, String miercoles, String jueves, String viernes){
+        setIdUnidad(idUnidad);
         setUnidad(unidad);
         setLunes(lunes);
         setMartes(martes);
@@ -43,6 +46,13 @@ public final class Unidad {
         setViernes(viernes);
     }
     
+    
+    public int getIdUnidad(){
+        return idUnidad.get();
+    }
+    public void setIdUnidad(int idUnidad){
+        this.idUnidad.set(idUnidad);
+    }
     
     public String getUnidad(){
         return unidad.get();

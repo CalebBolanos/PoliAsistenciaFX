@@ -68,7 +68,7 @@ public class RegistrarProfesorController implements Initializable {
     @FXML
     Text textInicio, textProfesores;
     @FXML
-    Button buttonContinuar, buttonCancelar, buttonAgregarHuella, buttonGuardar;
+    Button buttonContinuar, buttonCancelar, buttonAgregarHuella, buttonBorrarHuella, buttonGuardar;
     @FXML
     Pane paneDatosPersonales, paneHuellaDigital;
     @FXML
@@ -119,6 +119,8 @@ public class RegistrarProfesorController implements Initializable {
         textProfesores.setOnMouseClicked((MouseEvent me) -> {
             irAProfesores();
         });
+        
+        buttonBorrarHuella.setDisable(true);
     }
 
     @FXML
@@ -175,10 +177,10 @@ public class RegistrarProfesorController implements Initializable {
     }
     
     @FXML
-    public void borrarHuella(MouseEvent click){
+    public void borrarHuella(ActionEvent e){
         Huella huellax = tableviewHuellas.getSelectionModel().getSelectedItem();
         if(huellax != null){
-            borrarHuellaDigital(Integer.parseInt(huellax.getId()));
+            borrarHuellaDigital(Integer.parseInt(huellax.getId()), huellax.getNombre());
         }
     }
     
@@ -274,11 +276,11 @@ public class RegistrarProfesorController implements Initializable {
         }
     }
     
-    public void borrarHuellaDigital(int idHuella){
+    public void borrarHuellaDigital(int idHuella, String numeroHuella){
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Confirmar acción");
         alert.setHeaderText("¿Estas seguro de que quieres borrar esta huella digital?");
-        alert.setContentText("Esta acción no se puede deshacer");
+        alert.setContentText("Huella a borrar: "+ numeroHuella);
         Optional<ButtonType> resultado = alert.showAndWait();
         if (resultado.get() == ButtonType.OK) {
             if(consultar.borrarHuella(idHuella)){
@@ -353,6 +355,10 @@ public class RegistrarProfesorController implements Initializable {
     public void inicializarTabla(){
         datos = consultar.obtenerHuellasDigitales(idPer);
         tableviewHuellas.setItems(datos);
+        
+        tableviewHuellas.getSelectionModel().selectedItemProperty().addListener((observable, viejaSeleccion, nuevaSeleccion) -> {
+                buttonBorrarHuella.setDisable(nuevaSeleccion == null);
+        });
     }
     
     public void actualizarTabla(){

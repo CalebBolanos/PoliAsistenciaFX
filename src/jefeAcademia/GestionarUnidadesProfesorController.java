@@ -35,6 +35,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import poliasistenciafx.ConsultarDatos;
+import poliasistenciafx.Persona;
 import poliasistenciafx.Unidad;
 
 /**
@@ -51,22 +53,32 @@ public class GestionarUnidadesProfesorController implements Initializable {
     @FXML
     private TableView<Unidad> tableViewUnidades;
     @FXML
-    Text textInicio, textProfesores, textElegirProfesor;
+    Text textInicio, textProfesores, textElegirProfesor, textSubtitulo;
     @FXML
     Button buttonAgregarUnidades;
     @FXML
     TextField textfieldBuscar;
     
-    String idProfesor = "";
+    Persona profesor;
+    ConsultarDatos consultar;
+    String nombre, paterno, materno;
     
-    public GestionarUnidadesProfesorController(String idProfesor){
-        this.idProfesor = idProfesor;
+    int idPersona = 0;
+    
+    public GestionarUnidadesProfesorController(Persona profesor){
+        this.profesor = profesor;
+        consultar = new ConsultarDatos();
+        idPersona = consultar.obtenerIdPersonaProfesor(this.profesor.getNumero());
+        nombre = this.profesor.getNombre();
+        paterno = this.profesor.getPaterno();
+        materno = this.profesor.getMaterno();
     }
     
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println(idProfesor);
+        System.out.println(idPersona);
+        textSubtitulo.setText(textSubtitulo.getText() + nombre);
         textInicio.setOnMouseEntered((MouseEvent me) -> {
             textInicio.setUnderline(true);
             textInicio.setFill(Color.BLUE);
@@ -108,16 +120,7 @@ public class GestionarUnidadesProfesorController implements Initializable {
     
     public void inicializarTabla(){
         
-        ObservableList<Unidad> datos = tableViewUnidades.getItems();
-        for (int i = 1; i < 11; i++) {
-            datos.add(new Unidad("" + i,
-                    "lunes",
-                    "martes",
-                    "miercoles",
-                    "jueves",
-                    "viernes"
-            ));
-        }
+        ObservableList<Unidad> datos = consultar.obtenerUnidadesImpartidas(idPersona);
         
         FilteredList<Unidad> datosFiltrados = new FilteredList<>(datos, p -> true);
         textfieldBuscar.textProperty().addListener((observable, viejoValor, nuevoValor) -> {

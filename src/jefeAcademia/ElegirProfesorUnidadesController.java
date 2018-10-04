@@ -33,6 +33,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import poliasistenciafx.ConsultarDatos;
 import poliasistenciafx.Persona;
 
 /**
@@ -48,9 +49,13 @@ public class ElegirProfesorUnidadesController implements Initializable {
     Text textInicio, textProfesores;
     @FXML
     TextField textfieldBuscar;
+    
+    ConsultarDatos consultar;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        consultar = new ConsultarDatos();
+        
         textInicio.setOnMouseEntered((MouseEvent me) -> {
             textInicio.setUnderline(true);
             textInicio.setFill(Color.BLUE);
@@ -102,9 +107,9 @@ public class ElegirProfesorUnidadesController implements Initializable {
         }
     }
     
-    public void irAUnidades(String idProfesor){
+    public void irAUnidades(Persona profesor){
         Stage stageElegirProfesor = (Stage) (textInicio.getScene().getWindow());
-        GestionarUnidadesProfesorController gestionar = new GestionarUnidadesProfesorController(idProfesor);
+        GestionarUnidadesProfesorController gestionar = new GestionarUnidadesProfesorController(profesor);
         FXMLLoader gestionarDatos = new FXMLLoader(getClass().getResource("GestionarUnidadesProfesor.fxml"));
         gestionarDatos.setController(gestionar);
         try {
@@ -116,16 +121,7 @@ public class ElegirProfesorUnidadesController implements Initializable {
     }
     
     public void inicializarTabla(){
-        
-        ObservableList<Persona> datos = tableviewProfesores.getItems();
-        for (int i = 1; i < 11; i++) {
-            datos.add(new Persona("" + i,
-                    "nombre",
-                    "paterno",
-                    "materno",
-                    "genero"
-            ));
-        }
+        ObservableList<Persona> datos = consultar.obtenerDatosProfesores();
         
         FilteredList<Persona> datosFiltrados = new FilteredList<>(datos, p -> true);
         textfieldBuscar.textProperty().addListener((observable, viejoValor, nuevoValor) -> {
@@ -151,15 +147,14 @@ public class ElegirProfesorUnidadesController implements Initializable {
         
         SortedList<Persona> datosOrdenados = new SortedList<>(datosFiltrados);
         datosOrdenados.comparatorProperty().bind(tableviewProfesores.comparatorProperty());
-        tableviewProfesores.setItems(datosOrdenados);
-           
+        tableviewProfesores.setItems(datosOrdenados);   
     }
     
     @FXML
     public void obtenerDatos(MouseEvent click){
         Persona personax = tableviewProfesores.getSelectionModel().getSelectedItem();
         if(personax != null){
-            irAUnidades(personax.getNumero());
+            irAUnidades(personax);
         }
     }
     
