@@ -29,8 +29,8 @@
              <children>
                 <Text fx:id="textSubtitulo" fill="#686868" layoutX="63.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 27px;" text="Unidades de Aprendizaje Impartidas por " />
                 <Line endX="1057.0" layoutX="164.0" layoutY="62.0" startX="-100.0" stroke="#b5b5b5" />
-                <Button fx:id="buttonAgregarUnidad" layoutX="60.0" layoutY="490.0" mnemonicParsing="false" style="-fx-text-fill: #07c401;" styleClass="button-raised" text="Agregar Unidad de Aprendizaje" />
-            <TableView fx:id="tableViewUnidades" layoutX="60.0" layoutY="127.0" onMouseClicked="#obtenerDatos" prefHeight="353.0" prefWidth="1165.0">
+                <Button fx:id="buttonAgregarUnidad" layoutX="60.0" layoutY="490.0" mnemonicParsing="false" onAction="#mostrarUnidades" style="-fx-text-fill: #07c401;" styleClass="button-raised" text="Agregar Unidad de Aprendizaje" />
+            <TableView fx:id="tableViewUnidades" layoutX="60.0" layoutY="127.0" prefHeight="353.0" prefWidth="1165.0">
               <columns>
                 <TableColumn fx:id="tablecolumnUnidad" prefWidth="345.0000305175781" text="Unidad de Aprendizaje">
                       <cellValueFactory><PropertyValueFactory property="unidad" />
@@ -59,7 +59,7 @@
               </columns>
             </TableView>
             <TextField fx:id="textfieldBuscar" layoutX="63.0" layoutY="73.0" prefWidth="1165.0" promptText="Buscar..." />
-            <Button fx:id="buttonBorrarUnidad" layoutX="306.0" layoutY="490.0" mnemonicParsing="false" style="-fx-text-fill: #f44242;" styleClass="button-raised" text="Borrar Unidad de Aprendizaje" />
+            <Button fx:id="buttonBorrarUnidad" layoutX="306.0" layoutY="490.0" mnemonicParsing="false" onAction="#borrarUnidadDeAprendizaje" style="-fx-text-fill: #f44242;" styleClass="button-raised" text="Borrar Unidad de Aprendizaje" />
              </children>
           </Pane>
     </children>

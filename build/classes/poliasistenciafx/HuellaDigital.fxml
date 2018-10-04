@@ -24,7 +24,7 @@
                   <Image url="@../imagenes/fingerprint.png" />
                </image>
             </ImageView>
-            <Button fx:id="buttonCancelar" layoutX="28.0" layoutY="19.0" mnemonicParsing="false" onAction="#cerrarVentana" style="-fx-text-fill: #f44242;" text="Cancelar" />
+            <Button fx:id="buttonCancelar" layoutX="28.0" layoutY="19.0" mnemonicParsing="false" onAction="#cerrarVentana" text="Cancelar" />
             <HBox alignment="CENTER" layoutY="384.0" prefHeight="44.0" prefWidth="759.0">
                <children>
                   <Text fx:id="textIndicaciones" fill="WHITE" stroke="WHITE" strokeLineJoin="ROUND" style="-fx-font-size: 35px;" styleClass="fuentePoliAsistencia" text="Coloca tu dedo en el sensor" textAlignment="CENTER" wrappingWidth="696.587890625" />
