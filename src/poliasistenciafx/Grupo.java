@@ -15,24 +15,41 @@
  */
 package poliasistenciafx;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
  *
  * @author Caleb
  */
-public class Grupo {
+public final class Grupo {
+    private final SimpleIntegerProperty idGrupo = new SimpleIntegerProperty(0);
     private final SimpleStringProperty grupo = new SimpleStringProperty("");
     private final SimpleStringProperty semestre = new SimpleStringProperty("");
     private final SimpleStringProperty turno = new SimpleStringProperty("");
     private final SimpleStringProperty especialidad = new SimpleStringProperty("");
+    private final SimpleIntegerProperty idTurno = new SimpleIntegerProperty(0);
+    private final SimpleIntegerProperty idEspecialdad = new SimpleIntegerProperty(0);
     
     public Grupo(){
-        this("", "", "", "");
+        this(0, "", "", "", "", 0, 0);
     }
     
-    public Grupo(String grupo, String semestre, String turno, String especialidad){
-        
+    public Grupo(int idGrupo, String grupo, String semestre, String turno, String especialidad, int idTurno, int idEspecialidad){
+        setIdGrupo(idGrupo);
+        setGrupo(grupo);
+        setSemestre(semestre);
+        setTurno(turno);
+        setEspecialidad(especialidad);
+        setIdTurno(idTurno);
+        setIdEspecialidad(idEspecialidad);
+    }
+    
+    public int getIdGrupo(){
+        return idGrupo.get();
+    }
+    public void setIdGrupo(int idGrupo){
+        this.idGrupo.set(idGrupo);
     }
     
     public String getGrupo() {
@@ -63,4 +80,17 @@ public class Grupo {
         this.especialidad.set(especialidad);
     }
     
+    public int getIdTurno(){
+        return idTurno.get();
+    }
+    public void setIdTurno(int idTurno){
+        this.idTurno.set(idTurno);
+    }
+    
+    public int getIdEspecialidad(){
+        return idEspecialdad.get();
+    }
+    public void setIdEspecialidad(int idEspecialdad){
+        this.idEspecialdad.set(idEspecialdad);
+    }
 }

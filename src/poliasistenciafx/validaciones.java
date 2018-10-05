@@ -100,4 +100,28 @@ public class validaciones {
         }
         return errores!=cad.length();
     }
+    
+    public String evaluarCrearGrupo(String nombre, int semestre, int especialidad, int turno){
+        String msjError = "ok";
+        if(!(nombre.length()>0 && nombre.length()<=10)){
+            msjError = "El nombre del grupo no debe ser mayor a 10 caracteres";
+            if(nombre.length() == 0){
+                msjError = "Escribe un nombre";
+            }
+            return msjError;
+        }
+        if(semestre == 0){
+            msjError = "Selecciona un semestre";
+            return msjError;
+        }
+        if(especialidad == 0){
+            msjError = "Selecciona una especialidad";
+            return msjError;
+        }
+        if(turno == 0){
+            msjError = "Selecciona un turno";
+            return msjError;
+        }
+        return msjError;
+    }
 }
