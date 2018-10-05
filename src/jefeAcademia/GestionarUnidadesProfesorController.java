@@ -186,6 +186,7 @@ public class GestionarUnidadesProfesorController implements Initializable {
             Unidad unidadEscogida = agregarUnidadesController.getUnidadElegida();
             if(unidadEscogida != null){
                 System.out.println(unidadEscogida.getUnidad());
+                guardarUnidad(unidadEscogida);
             }
             
         }); 
@@ -196,7 +197,36 @@ public class GestionarUnidadesProfesorController implements Initializable {
     public void actualizarTabla(){
         datos.removeAll(datos);
         datos = consultar.obtenerUnidadesImpartidas(idPersona);
-        tableViewUnidades.setItems(datos);
+        textfieldBuscar.setText("");
+        FilteredList<Unidad> datosFiltrados = new FilteredList<>(datos, p -> true);
+        textfieldBuscar.textProperty().addListener((observable, viejoValor, nuevoValor) -> {
+            datosFiltrados.setPredicate(unidad -> {
+                if (nuevoValor == null || nuevoValor.isEmpty()) {
+                    return true;
+                }
+                String busquedaEnMinusculas = nuevoValor.toLowerCase();
+                if (unidad.getUnidad().toLowerCase().contains(busquedaEnMinusculas)) {
+                    return true;
+                } else if (unidad.getLunes().toLowerCase().contains(busquedaEnMinusculas)) {
+                    return true;
+                } else if (unidad.getMartes().toLowerCase().contains(busquedaEnMinusculas)) {
+                    return true;
+                }else if (unidad.getMiercoles().toLowerCase().contains(busquedaEnMinusculas)) {
+                    return true;
+                }else if (unidad.getJueves().toLowerCase().contains(busquedaEnMinusculas)) {
+                    return true;
+                }else if (unidad.getJueves().toLowerCase().contains(busquedaEnMinusculas)) {
+                    return true;
+                }else if (unidad.getViernes().toLowerCase().contains(busquedaEnMinusculas)) {
+                    return true;
+                }
+                return false;
+            });
+        });
+        
+        SortedList<Unidad> datosOrdenados = new SortedList<>(datosFiltrados);
+        datosOrdenados.comparatorProperty().bind(tableViewUnidades.comparatorProperty());
+        tableViewUnidades.setItems(datosOrdenados);
     }
     
     @FXML
@@ -274,6 +304,73 @@ public class GestionarUnidadesProfesorController implements Initializable {
         alert.setHeaderText(header);
         alert.setContentText(contexto);
         alert.showAndWait();
+    }
+    
+    public void guardarUnidad(Unidad unidad){
+        ObservableList<Unidad> unidades = tableViewUnidades.getItems();
+        boolean sinTraslapes = true;
+        for(Unidad unidadx : unidades){
+            sinTraslapes = validarTraslapes(unidadx, unidad);
+            if(!sinTraslapes){
+                crearDialogo("PoliAsistencia", "No se puede agregar Unidad de Aprendizaje", "La unidad de aprendizaje se traslapa con las unidades inscritas");
+                return;
+            }
+        }
+        consultar.agregarUnidadProfesor(unidad.getIdUnidad(), numero);
+        crearDialogo("PoliAsistencia", "Unidad de Aprendizaje agregada", null);
+        actualizarTabla();
+        
+        
+    }
+    
+    public boolean validarTraslapes(Unidad unidadInscrita, Unidad unidadNueva){
+        boolean ok;
+        ok = traslapes(unidadInscrita.getLunes(), unidadNueva.getLunes());
+        if(!ok){
+            return ok;
+        }
+        ok = traslapes(unidadInscrita.getMartes(), unidadNueva.getMartes());
+        if(!ok){
+            return ok;
+        }
+        ok = traslapes(unidadInscrita.getMiercoles(), unidadNueva.getMiercoles());
+        if(!ok){
+            return ok;
+        }
+        ok = traslapes(unidadInscrita.getJueves(), unidadNueva.getJueves());
+        if(!ok){
+            return ok;
+        }
+        ok = traslapes(unidadInscrita.getViernes(), unidadNueva.getViernes());
+        if(!ok){
+            return ok;
+        }
+        return ok;
+    }
+    
+    public boolean traslapes(String unidadInscrita, String nuevaUnidad){
+        boolean ok = true;
+        if(!unidadInscrita.equals("---")){
+            int lunesInicioInscrito = Integer.parseInt(unidadInscrita.charAt(0)+""+unidadInscrita.charAt(1));
+            int lunesFinalInscrito = Integer.parseInt(unidadInscrita.charAt(8)+""+unidadInscrita.charAt(9));
+            if(!nuevaUnidad.equals("---")){
+                int lunesInicioNueva = Integer.parseInt(nuevaUnidad.charAt(0)+""+nuevaUnidad.charAt(1));
+                int lunesFinalNueva = Integer.parseInt(nuevaUnidad.charAt(8)+""+nuevaUnidad.charAt(9));
+                if((lunesInicioNueva>=lunesInicioInscrito) && (lunesInicioNueva<=lunesFinalInscrito)){
+                    ok = false;
+                    return ok;
+                }
+                if((lunesFinalNueva>=lunesInicioInscrito) && (lunesFinalNueva<=lunesFinalInscrito)){
+                    ok = false;
+                    return ok;
+                }
+                if((lunesInicioInscrito>=lunesInicioNueva) && (lunesFinalInscrito<=lunesFinalNueva)){
+                    ok = false;
+                    return ok;
+                }
+            }
+        }
+        return ok;
     }
     
 }

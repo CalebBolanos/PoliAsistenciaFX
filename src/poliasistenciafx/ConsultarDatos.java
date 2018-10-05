@@ -258,8 +258,21 @@ public class ConsultarDatos {
         return unidades;
     }
     
-    public boolean agregarUnidadProfesor(){
-        return false;
+    public boolean agregarUnidadProfesor(int idUnidad, String numeroTrabajador){
+        boolean unidadAgregada = false;
+        baseDeDatos bd = new baseDeDatos();
+        try {
+            bd.conectar();
+            ResultSet rs = bd.ejecuta("call spGuardaUnidadesProfesor("+idUnidad+", '"+numeroTrabajador+"');");
+            if(rs.next()){
+                unidadAgregada = rs.getString("msj").equals("ok");
+            }
+            bd.cierraConexion();
+        } 
+        catch (SQLException ex) {
+            Logger.getLogger(ConsultarDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return unidadAgregada;
     }
     
     public boolean borrarUnidadProfesor(int idUnidad, String numeroTrabajador){
@@ -367,13 +380,13 @@ public class ConsultarDatos {
         String hora;
         switch (valorHora) {
             case 1:
-                hora = "7:00";
+                hora = "07:00";
                 break;
             case 2:
-                hora = "8:00";
+                hora = "08:00";
                 break;
             case 3:
-                hora = "9:00";
+                hora = "09:00";
                 break;
             case 4:
                 hora = "10:00";
@@ -414,7 +427,6 @@ public class ConsultarDatos {
             default:
                 hora = "Valor invalido";
                 break;
-
         }
         return hora;
     }
