@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="PoliAsistenciaFX.jar" size="1717118" download="eager" />
+    <jar href="PoliAsistenciaFX.jar" size="1723397" download="eager" />
     <jar href="lib\dpfpenrollment.jar" size="323314" download="eager" />
     <jar href="lib\dpfpverification.jar" size="33662" download="eager" />
     <jar href="lib\dpotapi.jar" size="58858" download="eager" />

@@ -376,6 +376,44 @@ public class ConsultarDatos {
         return unidades;
     }
     
+    public ObservableList<Especialidad> obtenerEspecialidades(){
+        ObservableList<Especialidad> especialidad = FXCollections.observableArrayList();
+        Especialidad especialidadx;
+        baseDeDatos bd = new baseDeDatos();
+        try {
+            bd.conectar();
+            ResultSet rs = bd.ejecuta("select * from areas;");
+            while(rs.next()){
+                especialidadx = new Especialidad();
+                especialidadx.setNombre(rs.getString("area"));
+                especialidadx.setId(rs.getInt("idArea"));
+                especialidad.add(especialidadx);
+                especialidadx = null;
+            }
+            bd.cierraConexion();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultarDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return especialidad;
+    }
+    
+    public boolean crearNuevoGrupo(int idEspecialidad, String nombre, int semestre, int turno){
+        boolean guardado = false;
+        try{
+            baseDeDatos bd = new baseDeDatos();
+            bd.conectar();
+            ResultSet rs = bd.ejecuta("call spNuevoGrupo('"+nombre+"', "+semestre+", "+idEspecialidad+", "+turno+");");
+            if(rs.next()){
+                guardado = rs.getString("msj").equals("ok");
+                System.out.println(rs.getString("idN"));
+            }
+            bd.cierraConexion();
+        }catch(SQLException ex){
+            Logger.getLogger(ConsultarDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return guardado;
+    }
+    
     private String evaluarHora(int valorHora) {
         String hora;
         switch (valorHora) {

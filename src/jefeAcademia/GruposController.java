@@ -24,6 +24,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
@@ -73,7 +74,18 @@ public class GruposController implements Initializable {
 
     @FXML
     public void irA(ActionEvent e) throws IOException{
-        
+        Stage stageGrupos = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        if (e.getSource().equals(buttonNuevoGrupo)) {
+            FXMLLoader crearGrupos = new FXMLLoader(getClass().getResource("CrearGrupo.fxml"));
+            Scene sceneCrearGrupos = new Scene(crearGrupos.load());
+            stageGrupos.setScene(sceneCrearGrupos);
+        }
+        if (e.getSource().equals(buttonAsignarProfesor)) {
+            
+        }
+        if (e.getSource().equals(buttonEditarGrupo)) {
+            
+        }
     }
     
 }
