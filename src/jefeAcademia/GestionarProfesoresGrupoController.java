@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 caleb.
+ * Copyright 2018 Caleb.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,52 +44,49 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import poliasistenciafx.ConsultarDatos;
+import poliasistenciafx.Grupo;
 import poliasistenciafx.Persona;
 import poliasistenciafx.Unidad;
+import poliasistenciafx.UnidadProfesor;
 
 /**
  * FXML Controller class
  *
- * @author caleb
+ * @author Caleb
  */
-public class GestionarUnidadesProfesorController implements Initializable {
+public class GestionarProfesoresGrupoController implements Initializable {
 
     /**
      * Initializes the controller class.
      */
-    
     @FXML
-    private TableView<Unidad> tableViewUnidades;
+    private TableView<UnidadProfesor> tableViewUnidadesProfesores;
     @FXML
-    Text textInicio, textProfesores, textElegirProfesor, textSubtitulo;
+    Text textInicio, textGrupos, textElegirGrupo, textTitulo, textSubtitulo;
     @FXML
-    Button buttonAgregarUnidad, buttonBorrarUnidad;
+    Button buttonAgregarProfesor, buttonBorrarProfesor;
     @FXML
     TextField textfieldBuscar;
     
-    Persona profesor;
+    Grupo grupo;
     ConsultarDatos consultar;
-    String nombre, paterno, materno, numero;
-    ObservableList<Unidad> datos;
+    String nombreGrupo;
+    int semestre;
+    ObservableList<UnidadProfesor> datos;
     
-    int idPersona = 0;
     
-    public GestionarUnidadesProfesorController(Persona profesor){
-        this.profesor = profesor;
-        consultar = new ConsultarDatos();
-        idPersona = consultar.obtenerIdPersonaProfesor(this.profesor.getNumero());
-        nombre = this.profesor.getNombre();
-        paterno = this.profesor.getPaterno();
-        materno = this.profesor.getMaterno();
-        numero = this.profesor.getNumero();
+    public GestionarProfesoresGrupoController(Grupo grupo){
+        this.grupo = grupo;
+        nombreGrupo = grupo.getGrupo();
+        semestre = grupo.getSemestre();
     }
-    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println(idPersona);
-        buttonBorrarUnidad.setDisable(true);
-        textSubtitulo.setText(textSubtitulo.getText() + nombre);
+        consultar = new ConsultarDatos();
+        
+        textTitulo.setText(textTitulo.getText()+nombreGrupo);
+        textSubtitulo.setText(textSubtitulo.getText()+nombreGrupo);
         textInicio.setOnMouseEntered((MouseEvent me) -> {
             textInicio.setUnderline(true);
             textInicio.setFill(Color.BLUE);
@@ -99,41 +96,42 @@ public class GestionarUnidadesProfesorController implements Initializable {
             textInicio.setFill(Color.BLACK);
         });
         textInicio.setOnMouseClicked((MouseEvent me) -> {
-            irAInicio();
-        });
-
-        textProfesores.setOnMouseEntered((MouseEvent me) -> {
-            textProfesores.setUnderline(true);
-            textProfesores.setFill(Color.BLUE);
-        });
-        textProfesores.setOnMouseExited((MouseEvent me) -> {
-            textProfesores.setUnderline(false);
-            textProfesores.setFill(Color.BLACK);
-        });
-        textProfesores.setOnMouseClicked((MouseEvent me) -> {
-            irAProfesores();
+            irA(1);
         });
         
-        textElegirProfesor.setOnMouseEntered((MouseEvent me) -> {
-            textElegirProfesor.setUnderline(true);
-            textElegirProfesor.setFill(Color.BLUE);
+        textGrupos.setOnMouseEntered((MouseEvent me) -> {
+            textGrupos.setUnderline(true);
+            textGrupos.setFill(Color.BLUE);
         });
-        textElegirProfesor.setOnMouseExited((MouseEvent me) -> {
-            textElegirProfesor.setUnderline(false);
-            textElegirProfesor.setFill(Color.BLACK);
+        textGrupos.setOnMouseExited((MouseEvent me) -> {
+            textGrupos.setUnderline(false);
+            textGrupos.setFill(Color.BLACK);
         });
-        textElegirProfesor.setOnMouseClicked((MouseEvent me) -> {
-            irAElegirProfesores();
+        textGrupos.setOnMouseClicked((MouseEvent me) -> {
+            irA(2);
+        });
+        
+        textElegirGrupo.setOnMouseEntered((MouseEvent me) -> {
+            textElegirGrupo.setUnderline(true);
+            textElegirGrupo.setFill(Color.BLUE);
+        });
+        textElegirGrupo.setOnMouseExited((MouseEvent me) -> {
+            textElegirGrupo.setUnderline(false);
+            textElegirGrupo.setFill(Color.BLACK);
+        });
+        textElegirGrupo.setOnMouseClicked((MouseEvent me) -> {
+            irA(3);
         });
         
         inicializarTabla();
+        buttonBorrarProfesor.setDisable(true);
     }
     
     public void inicializarTabla(){
         
-        datos = consultar.obtenerUnidadesImpartidas(idPersona);
+        datos = consultar.obtenerProfesoresInscritosEnGrupo(nombreGrupo);
         
-        FilteredList<Unidad> datosFiltrados = new FilteredList<>(datos, p -> true);
+        FilteredList<UnidadProfesor> datosFiltrados = new FilteredList<>(datos, u -> true);
         textfieldBuscar.textProperty().addListener((observable, viejoValor, nuevoValor) -> {
             datosFiltrados.setPredicate(unidad -> {
                 if (nuevoValor == null || nuevoValor.isEmpty()) {
@@ -142,7 +140,9 @@ public class GestionarUnidadesProfesorController implements Initializable {
                 String busquedaEnMinusculas = nuevoValor.toLowerCase();
                 if (unidad.getUnidad().toLowerCase().contains(busquedaEnMinusculas)) {
                     return true;
-                } else if (unidad.getLunes().toLowerCase().contains(busquedaEnMinusculas)) {
+                } else if (unidad.getProfesor().toLowerCase().contains(busquedaEnMinusculas)) {
+                    return true;
+                }else if (unidad.getLunes().toLowerCase().contains(busquedaEnMinusculas)) {
                     return true;
                 } else if (unidad.getMartes().toLowerCase().contains(busquedaEnMinusculas)) {
                     return true;
@@ -159,46 +159,20 @@ public class GestionarUnidadesProfesorController implements Initializable {
             });
         });
         
-        SortedList<Unidad> datosOrdenados = new SortedList<>(datosFiltrados);
-        datosOrdenados.comparatorProperty().bind(tableViewUnidades.comparatorProperty());
-        tableViewUnidades.setItems(datosOrdenados);
+        SortedList<UnidadProfesor> datosOrdenados = new SortedList<>(datosFiltrados);
+        datosOrdenados.comparatorProperty().bind(tableViewUnidadesProfesores.comparatorProperty());
+        tableViewUnidadesProfesores.setItems(datosOrdenados);
         
-        tableViewUnidades.getSelectionModel().selectedItemProperty().addListener((observable, viejaSeleccion, nuevaSeleccion) -> {
-                buttonBorrarUnidad.setDisable(nuevaSeleccion == null);
+        tableViewUnidadesProfesores.getSelectionModel().selectedItemProperty().addListener((observable, viejaSeleccion, nuevaSeleccion) -> {
+                buttonBorrarProfesor.setDisable(nuevaSeleccion == null);
         });
-    }
-    
-    @FXML
-    public void mostrarUnidades(ActionEvent e) throws IOException{
-        Stage stage = new Stage();
-        
-        AgregarUnidadesController agregarUnidadesController = new AgregarUnidadesController();
-        FXMLLoader agregar = new FXMLLoader(getClass().getResource("AgregarUnidades.fxml"));
-        agregar.setController(agregarUnidadesController);
-        
-        Parent root = agregar.load();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Unidades de Aprendizaje");
-        stage.getIcons().add(new Image("/imagenes/poliAsistencia.png"));
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(((Node)e.getSource()).getScene().getWindow());
-        stage.setOnHidden((WindowEvent evento) -> {
-            Unidad unidadEscogida = agregarUnidadesController.getUnidadElegida();
-            if(unidadEscogida != null){
-                System.out.println(unidadEscogida.getUnidad());
-                guardarUnidad(unidadEscogida);
-            }
-            
-        }); 
-        stage.showAndWait();
-        
     }
     
     public void actualizarTabla(){
         datos.removeAll(datos);
-        datos = consultar.obtenerUnidadesImpartidas(idPersona);
+        datos = consultar.obtenerProfesoresInscritosEnGrupo(nombreGrupo);
         textfieldBuscar.setText("");
-        FilteredList<Unidad> datosFiltrados = new FilteredList<>(datos, p -> true);
+        FilteredList<UnidadProfesor> datosFiltrados = new FilteredList<>(datos, u -> true);
         textfieldBuscar.textProperty().addListener((observable, viejoValor, nuevoValor) -> {
             datosFiltrados.setPredicate(unidad -> {
                 if (nuevoValor == null || nuevoValor.isEmpty()) {
@@ -207,7 +181,9 @@ public class GestionarUnidadesProfesorController implements Initializable {
                 String busquedaEnMinusculas = nuevoValor.toLowerCase();
                 if (unidad.getUnidad().toLowerCase().contains(busquedaEnMinusculas)) {
                     return true;
-                } else if (unidad.getLunes().toLowerCase().contains(busquedaEnMinusculas)) {
+                } else if (unidad.getProfesor().toLowerCase().contains(busquedaEnMinusculas)) {
+                    return true;
+                }else if (unidad.getLunes().toLowerCase().contains(busquedaEnMinusculas)) {
                     return true;
                 } else if (unidad.getMartes().toLowerCase().contains(busquedaEnMinusculas)) {
                     return true;
@@ -224,39 +200,87 @@ public class GestionarUnidadesProfesorController implements Initializable {
             });
         });
         
-        SortedList<Unidad> datosOrdenados = new SortedList<>(datosFiltrados);
-        datosOrdenados.comparatorProperty().bind(tableViewUnidades.comparatorProperty());
-        tableViewUnidades.setItems(datosOrdenados);
+        SortedList<UnidadProfesor> datosOrdenados = new SortedList<>(datosFiltrados);
+        datosOrdenados.comparatorProperty().bind(tableViewUnidadesProfesores.comparatorProperty());
+        tableViewUnidadesProfesores.setItems(datosOrdenados);
+    }
+
+    @FXML
+    public void mostrarProfesoresUnidad(ActionEvent e) throws IOException{
+        Stage stage = new Stage();
+        
+        AgregarProfesoresConUnidadesController agregarProfesorController = new AgregarProfesoresConUnidadesController(semestre);
+        FXMLLoader agregar = new FXMLLoader(getClass().getResource("AgregarProfesoresConUnidades.fxml"));
+        agregar.setController(agregarProfesorController);
+        
+        Parent root = agregar.load();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Profesores con unidades de aprendizaje disponibles");
+        stage.getIcons().add(new Image("/imagenes/poliAsistencia.png"));
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(((Node)e.getSource()).getScene().getWindow());
+        stage.setOnHidden((WindowEvent evento) -> {
+            UnidadProfesor profesorEscogido = agregarProfesorController.getProfesorElegido();
+            if(profesorEscogido != null){
+                System.out.println(profesorEscogido.getUnidad());
+                guardarProfesor(profesorEscogido);
+            }
+            
+        }); 
+        stage.showAndWait();
     }
     
     @FXML
-    public void borrarUnidadDeAprendizaje(ActionEvent e){
-        Unidad unidadx = tableViewUnidades.getSelectionModel().getSelectedItem();
-        if(unidadx != null){
-            borrarUnidad(unidadx.getIdUnidad(), unidadx.getUnidad());
+    public void borrarProfesorUnidad(ActionEvent e){
+        UnidadProfesor profesorx = tableViewUnidadesProfesores.getSelectionModel().getSelectedItem();
+        if(profesorx != null){
+            borrarProfesor(profesorx.getProfesor(), profesorx.getUnidad(), profesorx.getIdUnidad());
         }
     }
     
-    public void borrarUnidad(int idUnidad, String nombreUnidad){
+    public void irA(int pantalla){
+        String recurso = "";
+        Stage stageElegirProfesorGrupo = (Stage) (textInicio.getScene().getWindow());
+        switch(pantalla){
+            case 1:
+                recurso = "Inicio.fxml";
+                break;
+            case 2:
+                recurso = "Grupos.fxml";
+                break;
+            case 3:
+                recurso = "ElegirProfesoresAsignarGrupo.fxml";
+                break;
+        }
+        FXMLLoader pantallax = new FXMLLoader(getClass().getResource(recurso));
+        try {
+            Scene scenePantallax = new Scene(pantallax.load());
+            stageElegirProfesorGrupo.setScene(scenePantallax);
+        } catch (IOException ex) {
+            Logger.getLogger(ProfesoresController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void borrarProfesor(String nombreProfesor, String nombreUnidad, int idUnidad){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmar acción");
-        alert.setHeaderText("¿Estas seguro de que quieres borrar esta unidad de aprendizaje?");
-        alert.setContentText("Unidad de aprendizaje a borrar: "+ nombreUnidad);
+        alert.setHeaderText("¿Estas seguro de que quieres borrar al profesor de este grupo?");
+        alert.setContentText("Profesor seleccionado: "+nombreProfesor+"\n Unidad de Aprendizaje: "+nombreUnidad);
         Optional<ButtonType> resultado = alert.showAndWait();
         if (resultado.get() == ButtonType.OK) {
-            if(consultar.borrarUnidadProfesor(idUnidad, numero)){
+            if(consultar.borrarProfesorGrupo(idUnidad, nombreGrupo)){
                 Alert alertOk = new Alert(Alert.AlertType.INFORMATION);
                 alertOk.setTitle("PoliAsistencia");
                 alertOk.setHeaderText(null);
-                alertOk.setContentText("Unidad de Aprendizaje borrada");
+                alertOk.setContentText("Profesor dado de baja del grupo");
                 alertOk.showAndWait();
                 actualizarTabla();
             }
             else{
                 Alert alertError = new Alert(Alert.AlertType.ERROR);
                 alertError.setTitle("PoliAsistencia");
-                alertError.setHeaderText("Error al borrar la huella digital");
-                alertError.setContentText("Lo sentimos, pero no se puede borrar la huella digital");
+                alertError.setHeaderText("Error al borrar profesor");
+                alertError.setContentText("Lo sentimos, pero no podemos dar de baja al profesor");
                 alert.showAndWait();
                 actualizarTabla();
             }
@@ -264,70 +288,30 @@ public class GestionarUnidadesProfesorController implements Initializable {
 
         }
     }
-    
-    public void irAProfesores() {
-        Stage stageEditarProfesor = (Stage) (textProfesores.getScene().getWindow());
-        FXMLLoader Profesores = new FXMLLoader(getClass().getResource("Profesores.fxml"));
-        try {
-            Scene sceneProfesores = new Scene(Profesores.load());
-            stageEditarProfesor.setScene(sceneProfesores);
-        } catch (IOException ex) {
-            Logger.getLogger(ProfesoresController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
-    public void irAInicio() {
-        Stage stageGestionarUnidades = (Stage) (textInicio.getScene().getWindow());
-        FXMLLoader inicioJefe = new FXMLLoader(getClass().getResource("Inicio.fxml"));
-        try {
-            Scene sceneInicioJefe = new Scene(inicioJefe.load());
-            stageGestionarUnidades.setScene(sceneInicioJefe);
-        } catch (IOException ex) {
-            Logger.getLogger(ProfesoresController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    public void irAElegirProfesores() {
-        Stage stageGestionarUnidades = (Stage) (textInicio.getScene().getWindow());
-        FXMLLoader elegirProfesor = new FXMLLoader(getClass().getResource("ElegirProfesorUnidades.fxml"));
-        try {
-            Scene sceneElegirProfesor = new Scene(elegirProfesor.load());
-            stageGestionarUnidades.setScene(sceneElegirProfesor);
-        } catch (IOException ex) {
-            Logger.getLogger(ProfesoresController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public void crearDialogo(String titulo, String header, String contexto) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle(titulo);
-        alert.setHeaderText(header);
-        alert.setContentText(contexto);
-        alert.showAndWait();
-    }
-    
-    public void guardarUnidad(Unidad unidad){
-        ObservableList<Unidad> unidades = tableViewUnidades.getItems();
+    public void guardarProfesor(UnidadProfesor profesor) {
+        ObservableList<UnidadProfesor> profesores = tableViewUnidadesProfesores.getItems();
         boolean sinTraslapes = true;
-        for(Unidad unidadx : unidades){
-            sinTraslapes = validarTraslapes(unidadx, unidad);
+        for(UnidadProfesor profesorx : profesores){
+            sinTraslapes = validarTraslapes(profesorx, profesor);
             if(!sinTraslapes){
-                crearDialogo("PoliAsistencia", "No se puede agregar Unidad de Aprendizaje", "La unidad de aprendizaje se traslapa con las unidades inscritas");
+                crearDialogo("PoliAsistencia", "No se puede agregar el profesor al grupo", "La unidad de aprendizaje del profesor se traslapa con las unidades existentes del grupo");
                 return;
             }
         }
-        if(consultar.agregarUnidadProfesor(unidad.getIdUnidad(), numero)){
-            crearDialogo("PoliAsistencia", "Unidad de Aprendizaje agregada", null);
+        if(consultar.agregarProfesorGrupo(profesor.getIdUnidad(), nombreGrupo)){
+            crearDialogo("PoliAsistencia", "Profesor agregado al grupo", null);
             actualizarTabla();
         }
         else{
-            crearDialogo("PoliAsistencia", "No se pudo agregar la unidad de aprendizaje", null);
+            crearDialogo("PoliAsistencia", "El profesor no pudo ser agregado al grupo", null);
             actualizarTabla();
         }
-
+        
     }
     
-    public boolean validarTraslapes(Unidad unidadInscrita, Unidad unidadNueva){
+    
+    public boolean validarTraslapes(UnidadProfesor unidadInscrita, UnidadProfesor unidadNueva){
         boolean ok;
         ok = traslapes(unidadInscrita.getLunes(), unidadNueva.getLunes());
         if(!ok){
@@ -375,6 +359,14 @@ public class GestionarUnidadesProfesorController implements Initializable {
             }
         }
         return ok;
+    }
+    
+    public void crearDialogo(String titulo, String header, String contexto) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(titulo);
+        alert.setHeaderText(header);
+        alert.setContentText(contexto);
+        alert.showAndWait();
     }
     
 }

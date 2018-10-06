@@ -25,17 +25,17 @@ import javafx.beans.property.SimpleStringProperty;
 public final class Grupo {
     private final SimpleIntegerProperty idGrupo = new SimpleIntegerProperty(0);
     private final SimpleStringProperty grupo = new SimpleStringProperty("");
-    private final SimpleStringProperty semestre = new SimpleStringProperty("");
+    private final SimpleIntegerProperty semestre = new SimpleIntegerProperty(0);
     private final SimpleStringProperty turno = new SimpleStringProperty("");
     private final SimpleStringProperty especialidad = new SimpleStringProperty("");
     private final SimpleIntegerProperty idTurno = new SimpleIntegerProperty(0);
     private final SimpleIntegerProperty idEspecialdad = new SimpleIntegerProperty(0);
     
     public Grupo(){
-        this(0, "", "", "", "", 0, 0);
+        this(0, "", 0, "", "", 0, 0);
     }
     
-    public Grupo(int idGrupo, String grupo, String semestre, String turno, String especialidad, int idTurno, int idEspecialidad){
+    public Grupo(int idGrupo, String grupo, int semestre, String turno, String especialidad, int idTurno, int idEspecialidad){
         setIdGrupo(idGrupo);
         setGrupo(grupo);
         setSemestre(semestre);
@@ -59,10 +59,10 @@ public final class Grupo {
         this.grupo.set(grupo);
     }
     
-    public String getSemestre() {
+    public int getSemestre() {
         return semestre.get();
     }
-    public void setSemestre(String semestre) {
+    public void setSemestre(int semestre) {
         this.semestre.set(semestre);
     }
     

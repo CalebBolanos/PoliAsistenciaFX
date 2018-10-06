@@ -183,7 +183,7 @@ public class CrearGrupoController implements Initializable {
         alert.setContentText("Se perderan los datos ingresados");
         Optional<ButtonType> resultado = alert.showAndWait();
         if (resultado.get() == ButtonType.OK) {
-            Stage stageEditarProfesor = (Stage) (textInicio.getScene().getWindow());
+            Stage stageCrearGrupo = (Stage) (textInicio.getScene().getWindow());
             if(pantalla == 1){
                 recurso = "Inicio.fxml";
             }
@@ -193,7 +193,7 @@ public class CrearGrupoController implements Initializable {
             FXMLLoader pantallax = new FXMLLoader(getClass().getResource(recurso));
             try {
                 Scene scenePantallax = new Scene(pantallax.load());
-                stageEditarProfesor.setScene(scenePantallax);
+                stageCrearGrupo.setScene(scenePantallax);
             } catch (IOException ex) {
                 Logger.getLogger(ProfesoresController.class.getName()).log(Level.SEVERE, null, ex);
             }
