@@ -41,11 +41,12 @@ import poliasistenciafx.Grupo;
  *
  * @author Caleb
  */
-public class ElegirProfesoresAsignarGrupoController implements Initializable {
+public class ElegirGrupoEditarDatosController implements Initializable {
 
     /**
      * Initializes the controller class.
      */
+    
     @FXML
     private TableView<Grupo> tableviewGrupos;
     @FXML
@@ -85,7 +86,7 @@ public class ElegirProfesoresAsignarGrupoController implements Initializable {
         
         inicializarTabla();
     }
-    
+
     public void inicializarTabla(){
         ObservableList<Grupo> datos = consultar.obtenerGrupos();
         
@@ -143,11 +144,11 @@ public class ElegirProfesoresAsignarGrupoController implements Initializable {
     
     public void irAProfesoresGrupo(Grupo grupo){
         Stage stageElegirProfesor = (Stage) (textInicio.getScene().getWindow());
-        GestionarProfesoresGrupoController gestionar = new GestionarProfesoresGrupoController(grupo);
-        FXMLLoader gestionarDatos = new FXMLLoader(getClass().getResource("GestionarProfesoresGrupo.fxml"));
-        gestionarDatos.setController(gestionar);
+        EditarDatosGrupoController editarController = new EditarDatosGrupoController(grupo);
+        FXMLLoader editarGrupo = new FXMLLoader(getClass().getResource("EditarDatosGrupo.fxml"));
+        editarGrupo.setController(editarController);
         try {
-            Scene sceneEditarDatos = new Scene(gestionarDatos.load());
+            Scene sceneEditarDatos = new Scene(editarGrupo.load());
             stageElegirProfesor.setScene(sceneEditarDatos);
         } catch (IOException ex) {
             Logger.getLogger(ProfesoresController.class.getName()).log(Level.SEVERE, null, ex);

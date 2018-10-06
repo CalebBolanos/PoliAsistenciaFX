@@ -86,7 +86,9 @@ public class GruposController implements Initializable {
             stageGrupos.setScene(sceneElegirProfesorGrupo);
         }
         if (e.getSource().equals(buttonEditarGrupo)) {
-            
+            FXMLLoader elegirGrupoDatos = new FXMLLoader(getClass().getResource("ElegirGrupoEditarDatos.fxml"));
+            Scene sceneElegirGrupoDatos = new Scene(elegirGrupoDatos.load());
+            stageGrupos.setScene(sceneElegirGrupoDatos);
         }
     }
     

@@ -45,8 +45,6 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import poliasistenciafx.ConsultarDatos;
 import poliasistenciafx.Grupo;
-import poliasistenciafx.Persona;
-import poliasistenciafx.Unidad;
 import poliasistenciafx.UnidadProfesor;
 
 /**

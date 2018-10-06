@@ -29,7 +29,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
@@ -43,6 +42,7 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import poliasistenciafx.ConsultarDatos;
 import poliasistenciafx.Especialidad;
+import poliasistenciafx.Grupo;
 import poliasistenciafx.validaciones;
 
 /**
@@ -50,13 +50,13 @@ import poliasistenciafx.validaciones;
  *
  * @author Caleb
  */
-public class CrearGrupoController implements Initializable {
+public class EditarDatosGrupoController implements Initializable {
 
     /**
      * Initializes the controller class.
      */
     @FXML
-    Text textInicio, textGrupos;
+    Text textInicio, textGrupos, textElegirGrupo;
     @FXML
     TextField textfieldNombreGrupo;
     @FXML
@@ -72,6 +72,18 @@ public class CrearGrupoController implements Initializable {
     
     ConsultarDatos consultar;
     ObservableList<Integer> semestres;
+    Grupo grupo;
+    String antiguoNombre, especialidad;
+    int semestre, idEspecilidad, idTurno;
+    
+    public EditarDatosGrupoController(Grupo grupo){
+        this.grupo = grupo;
+        antiguoNombre = grupo.getGrupo();
+        semestre = grupo.getSemestre();
+        especialidad = grupo.getEspecialidad();
+        idEspecilidad = grupo.getIdEspecialidad();
+        idTurno = grupo.getIdTurno();
+    }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -99,6 +111,18 @@ public class CrearGrupoController implements Initializable {
             irA(2);
         });
         
+        textElegirGrupo.setOnMouseEntered((MouseEvent me) -> {
+            textElegirGrupo.setUnderline(true);
+            textElegirGrupo.setFill(Color.BLUE);
+        });
+        textElegirGrupo.setOnMouseExited((MouseEvent me) -> {
+            textElegirGrupo.setUnderline(false);
+            textElegirGrupo.setFill(Color.BLACK);
+        });
+        textElegirGrupo.setOnMouseClicked((MouseEvent me) -> {
+            irA(3);
+        });
+        
         
         
         semestres = FXCollections.observableArrayList();
@@ -123,10 +147,24 @@ public class CrearGrupoController implements Initializable {
                 System.out.println(nuevoValor.getId());
             }
         });
-    }
-
+        
+        textfieldNombreGrupo.setText(antiguoNombre);
+        comboboxSemestre.setValue(semestre);
+        comboboxEspecialidad.getSelectionModel().select(new Especialidad(especialidad, idEspecilidad));
+        if(idTurno == 1){
+            radiobuttonMatutino.setSelected(true);
+        }
+        else{
+            radiobuttonVespertino.setScaleShape(true);
+        }
+        comboboxSemestre.setDisable(true);
+        comboboxEspecialidad.setDisable(true);
+        radiobuttonMatutino.setDisable(true);
+        radiobuttonVespertino.setDisable(true);
+    }    
+    
     @FXML
-    public void guardarGrupo(ActionEvent e){
+    public void guardarCambios(ActionEvent e){
         validaciones validar = new validaciones();
         String nombre;
         int semestre, idEspecialidad, turnoInt;
@@ -153,9 +191,9 @@ public class CrearGrupoController implements Initializable {
         }
         String msj = validar.evaluarCrearGrupo(nombre, semestre, idEspecialidad, turnoInt);
         if(msj.equals("ok")){
-            if(consultar.crearNuevoGrupo(idEspecialidad, nombre, semestre, turnoInt)){
+            if(consultar.editarGrupo(antiguoNombre, nombre, semestre, idEspecialidad, idTurno)){
                 try {
-                    crearDialogo("PoliAsistencia", "Grupo Creado", "Nombre de grupo: "+nombre, AlertType.INFORMATION);
+                    crearDialogo("PoliAsistencia", "Datos guardados", "Nombre de grupo: "+nombre, Alert.AlertType.INFORMATION);
                     Stage stageEditarProfesor = (Stage) (textInicio.getScene().getWindow());
                     FXMLLoader grupos = new FXMLLoader(getClass().getResource("Grupos.fxml"));
                     Scene sceneGrupos = new Scene(grupos.load());
@@ -165,42 +203,38 @@ public class CrearGrupoController implements Initializable {
                 }
             }
             else{
-                crearDialogo("PoliAsistencia", "No se puede crear el grupo porque ya existe", "El nombre que le asignaste a este grupo ya es ocupado por otro grupo existente", AlertType.INFORMATION);
+                crearDialogo("PoliAsistencia", "No se puede editar el grupo", "El nombre que le asignaste a este grupo ya es ocupado por otro grupo existente", Alert.AlertType.INFORMATION);
             }
         }
         else{
-            crearDialogo("PoliAsistencia", msj, null, AlertType.WARNING);
+            crearDialogo("PoliAsistencia", msj, null, Alert.AlertType.WARNING);
         }
     }
     
     public void irA(int pantalla){
         String recurso = "";
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmar accion");
-        alert.setHeaderText("Estas seguro de que quieres cancelar el registro?");
-        alert.setContentText("Se perderan los datos ingresados");
-        Optional<ButtonType> resultado = alert.showAndWait();
-        if (resultado.get() == ButtonType.OK) {
-            Stage stageCrearGrupo = (Stage) (textInicio.getScene().getWindow());
-            if(pantalla == 1){
+        Stage stageElegirProfesorGrupo = (Stage) (textInicio.getScene().getWindow());
+        switch(pantalla){
+            case 1:
                 recurso = "Inicio.fxml";
-            }
-            else{
+                break;
+            case 2:
                 recurso = "Grupos.fxml";
-            }
-            FXMLLoader pantallax = new FXMLLoader(getClass().getResource(recurso));
-            try {
-                Scene scenePantallax = new Scene(pantallax.load());
-                stageCrearGrupo.setScene(scenePantallax);
-            } catch (IOException ex) {
-                Logger.getLogger(ProfesoresController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-
+                break;
+            case 3:
+                recurso = "ElegirGrupoEditarDatos.fxml";
+                break;
+        }
+        FXMLLoader pantallax = new FXMLLoader(getClass().getResource(recurso));
+        try {
+            Scene scenePantallax = new Scene(pantallax.load());
+            stageElegirProfesorGrupo.setScene(scenePantallax);
+        } catch (IOException ex) {
+            Logger.getLogger(ProfesoresController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    public void crearDialogo(String titulo, String header, String contexto, AlertType tipoAlerta) {
+    public void crearDialogo(String titulo, String header, String contexto, Alert.AlertType tipoAlerta) {
         Alert alert = new Alert(tipoAlerta);
         alert.setTitle(titulo);
         alert.setHeaderText(header);

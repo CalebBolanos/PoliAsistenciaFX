@@ -649,6 +649,22 @@ public class ConsultarDatos {
         return borrado;
     }
     
+    public boolean editarGrupo(String antiguoNombre, String nuevoNombre, int semestre, int idEspecialidad, int idTurno){
+        boolean editado = false;
+        try{
+            baseDeDatos bd = new baseDeDatos();
+            bd.conectar();
+            ResultSet rs = bd.ejecuta("call spEditaGrupo('"+antiguoNombre+"', '"+nuevoNombre+"', "+semestre+", "+idEspecialidad+", "+idTurno+");");
+            if(rs.next()){
+                editado = rs.getString("msj").equals("ok");
+            }
+            bd.cierraConexion();
+        }catch(SQLException ex){
+            Logger.getLogger(ConsultarDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return editado;
+    }
+    
     private String evaluarHora(int valorHora) {
         String hora;
         switch (valorHora) {
