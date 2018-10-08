@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<AnchorPane id="AnchorPane" prefHeight="650.0" prefWidth="1300.0" stylesheets="@../css/MaterialFX.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jefeAcademia.CrearUnidadController">
+    <children>
+      <Pane fx:id="paneTitulo" layoutX="543.0" layoutY="41.0" prefHeight="100.0" prefWidth="1300.0" style="-fx-background-color: #f7f7f7;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Text fx:id="textTitulo" fill="#0078f7" fontSmoothingType="LCD" layoutX="45.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 35px;" text="Crear Unidad de Aprendizaje" />
+            <TextFlow fx:id="textFlow" layoutX="46.0" layoutY="30.0" prefHeight="37.0" prefWidth="318.0">
+               <children>
+                  <Text fx:id="textInicio" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Inicio&gt;" />
+                  <Text fx:id="textUnidades" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Unidades de Aprendizaje&gt;" />
+                  <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Crear Unidad" />
+               </children>
+            </TextFlow>
+            <Button fx:id="buttonCancelar" layoutX="1196.0" layoutY="29.0" mnemonicParsing="false" onAction="#ejecutarAccion" style="-fx-text-fill: #f44242;" text="Cancelar " />
+         </children></Pane>
+      <Pane fx:id="paneDatos" layoutX="550.0" layoutY="225.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fff;" styleClass="button-raised" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+         <children>
+            <TextField fx:id="textfieldNombre" layoutX="399.0" layoutY="179.0" prefHeight="34.0" prefWidth="500.0" promptText="Nombre de la Unidad de Aprendizaje" />
+            <ComboBox fx:id="comboboxSemestre" layoutX="399.0" layoutY="248.0" prefHeight="47.0" prefWidth="501.0" promptText="Semestre" />
+            <Button fx:id="buttonGuardarUnidad" layoutX="513.0" layoutY="417.0" mnemonicParsing="false" onAction="#ejecutarAccion" prefHeight="40.0" prefWidth="275.0" styleClass="button-raised" text="Crear Unidad de Aprendizaje" />
+            <Text fill="#686868" fontSmoothingType="LCD" layoutX="399.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 27px;" text="Ingresa los datos de la unidad " />
+            <Line endX="400.0" layoutX="500.0" layoutY="137.0" startX="-100.0" stroke="#b5b5b5" />
+            <ComboBox fx:id="comboboxEspecialidad" layoutX="399.0" layoutY="333.0" prefWidth="500.0" promptText="Especialidad" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

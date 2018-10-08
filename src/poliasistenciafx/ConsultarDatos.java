@@ -665,7 +665,23 @@ public class ConsultarDatos {
         return editado;
     }
     
-    private String evaluarHora(int valorHora) {
+    public boolean CrearUnidad(int idEspecialidad, String nombreMateria, int idSemestre){
+        boolean creado = false;
+        try{
+            baseDeDatos bd = new baseDeDatos();
+            bd.conectar();
+            ResultSet rs = bd.ejecuta("call spNuevaMateria("+idEspecialidad+", '"+nombreMateria+"', "+idSemestre+");");
+            if(rs.next()){
+                creado = rs.getString("msj").equals("Registro con exito");
+            }
+            bd.cierraConexion();
+        }catch(SQLException ex){
+            Logger.getLogger(ConsultarDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return creado;
+    }
+    
+    public String evaluarHora(int valorHora) {
         String hora;
         switch (valorHora) {
             case 1:
