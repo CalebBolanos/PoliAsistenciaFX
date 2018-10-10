@@ -45,7 +45,7 @@ public class UnidadesController implements Initializable {
     @FXML
     Text textInicio;
     @FXML
-    Button buttonCrearUnidad, buttonEditarUnidad, buttonEspecialidades;
+    Button buttonDirectorioUnidad, buttonCrearUnidadHorario, buttonGestionarUnidadesHorario, buttonEspecialidades;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -73,17 +73,27 @@ public class UnidadesController implements Initializable {
     @FXML
     public void irA(ActionEvent e) throws IOException{
         Stage stageUnidad = (Stage) ((Node)e.getSource()).getScene().getWindow();
-        if (e.getSource().equals(buttonCrearUnidad)) {
-            FXMLLoader crearUnidades = new FXMLLoader(getClass().getResource("CrearUnidad.fxml"));
-            Scene sceneCrearUnidades;
+        if (e.getSource().equals(buttonDirectorioUnidad)) {
+            FXMLLoader directorioUnidades = new FXMLLoader(getClass().getResource("DirectorioUnidades.fxml"));
+            Scene sceneDirectorioUnidades;
             try {
-                sceneCrearUnidades = new Scene(crearUnidades.load());
-                stageUnidad.setScene(sceneCrearUnidades);
+                sceneDirectorioUnidades = new Scene(directorioUnidades.load());
+                stageUnidad.setScene(sceneDirectorioUnidades);
             } catch (IOException ex) {
                 Logger.getLogger(ProfesoresController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        if (e.getSource().equals(buttonEditarUnidad)) {
+        if (e.getSource().equals(buttonCrearUnidadHorario)) {
+            FXMLLoader agregarHorarioUnidad = new FXMLLoader(getClass().getResource("AgregarHorarioUnidad.fxml"));
+            Scene sceneAgregarHorarioUnidad;
+            try {
+                sceneAgregarHorarioUnidad = new Scene(agregarHorarioUnidad.load());
+                stageUnidad.setScene(sceneAgregarHorarioUnidad);
+            } catch (IOException ex) {
+                Logger.getLogger(ProfesoresController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if (e.getSource().equals(buttonGestionarUnidadesHorario)) {
             
         }
         if (e.getSource().equals(buttonEspecialidades)) {

@@ -21,7 +21,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import jefeAcademia.ProfesoresController;
 
 /**
  *
@@ -679,6 +678,46 @@ public class ConsultarDatos {
             Logger.getLogger(ConsultarDatos.class.getName()).log(Level.SEVERE, null, ex);
         }
         return creado;
+    }
+    
+    public ObservableList<Materia> obtenerDirectorioUnidades(){
+        ObservableList<Materia> materias = FXCollections.observableArrayList();
+        Materia materiax;
+        baseDeDatos bd = new baseDeDatos();
+        try {
+            bd.conectar();
+            ResultSet rs = bd.ejecuta("select * from vwmaterias;");
+            while(rs.next()){
+                materiax = new Materia();
+                materiax.setIdMateria(rs.getInt("idMateria"));
+                materiax.setNombreUnidad(rs.getString("materia"));
+                materiax.setIdSemestre(rs.getInt("semestre"));
+                materiax.setArea(rs.getString("area"));
+                materiax.setIdArea(rs.getInt("idArea"));
+                materias.add(materiax);
+                materiax = null;
+            }
+            bd.cierraConexion();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultarDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return materias;
+    }
+    
+     public boolean borrarUnidadAprendizaje(String nombreUnidad){
+        boolean borrado = false;
+        try{
+            baseDeDatos bd = new baseDeDatos();
+            bd.conectar();
+            ResultSet rs = bd.ejecuta("call spBorrarMateria('"+nombreUnidad+"');");
+            if(rs.next()){
+                borrado = rs.getString("msj").equals("ok");
+            }
+            bd.cierraConexion();
+        }catch(SQLException ex){
+            Logger.getLogger(ConsultarDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return borrado;
     }
     
     public String evaluarHora(int valorHora) {

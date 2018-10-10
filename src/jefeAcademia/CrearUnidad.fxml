@@ -14,11 +14,12 @@
       <Pane fx:id="paneTitulo" layoutX="543.0" layoutY="41.0" prefHeight="100.0" prefWidth="1300.0" style="-fx-background-color: #f7f7f7;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Text fx:id="textTitulo" fill="#0078f7" fontSmoothingType="LCD" layoutX="45.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 35px;" text="Crear Unidad de Aprendizaje" />
-            <TextFlow fx:id="textFlow" layoutX="46.0" layoutY="30.0" prefHeight="37.0" prefWidth="318.0">
+            <TextFlow fx:id="textFlow" layoutX="46.0" layoutY="30.0" prefHeight="37.0" prefWidth="364.0">
                <children>
                   <Text fx:id="textInicio" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Inicio&gt;" />
                   <Text fx:id="textUnidades" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Unidades de Aprendizaje&gt;" />
-                  <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Crear Unidad" />
+                  <Text fx:id="textDirectorio" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Directorio&gt;" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Crear Unidad" />
                </children>
             </TextFlow>
             <Button fx:id="buttonCancelar" layoutX="1196.0" layoutY="29.0" mnemonicParsing="false" onAction="#ejecutarAccion" style="-fx-text-fill: #f44242;" text="Cancelar " />

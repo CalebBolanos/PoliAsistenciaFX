@@ -55,7 +55,7 @@ public class CrearUnidadController implements Initializable {
     @FXML
     Pane paneDatos;
     @FXML
-    Text textInicio, textUnidades;
+    Text textInicio, textUnidades, textDirectorio;
     @FXML
     TextField textfieldNombre;
     @FXML
@@ -112,6 +112,27 @@ public class CrearUnidadController implements Initializable {
                 Logger.getLogger(ProfesoresController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+        
+        textDirectorio.setOnMouseEntered((MouseEvent me) -> {
+            textDirectorio.setUnderline(true);
+            textDirectorio.setFill(Color.BLUE);
+        });
+        textDirectorio.setOnMouseExited((MouseEvent me) -> {
+            textDirectorio.setUnderline(false);
+            textDirectorio.setFill(Color.BLACK);
+        });
+        textDirectorio.setOnMouseClicked((MouseEvent me) -> {
+            Stage stageCrearUnidad = (Stage) (textDirectorio.getScene().getWindow());
+            FXMLLoader directorioUnidades = new FXMLLoader(getClass().getResource("DirectorioUnidades.fxml"));
+            Scene sceneDirectorioUnidades;
+            try {
+                sceneDirectorioUnidades = new Scene(directorioUnidades.load());
+                stageCrearUnidad.setScene(sceneDirectorioUnidades);
+            } catch (IOException ex) {
+                Logger.getLogger(ProfesoresController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        
         semestres = FXCollections.observableArrayList();
         semestres.addAll(1, 2, 3, 4, 5, 6);
         comboboxSemestre.setItems(semestres);
@@ -168,12 +189,12 @@ public class CrearUnidadController implements Initializable {
             alert.setContentText("Se perderan los datos ingresados");
             Optional<ButtonType> resultado = alert.showAndWait();
             if (resultado.get() == ButtonType.OK) {
-                Stage stageCrearUnidad = (Stage) (textUnidades.getScene().getWindow());
-                FXMLLoader unidades = new FXMLLoader(getClass().getResource("Unidades.fxml"));
-                Scene sceneUnidades;
+                Stage stageCrearUnidad = (Stage) (textDirectorio.getScene().getWindow());
+                FXMLLoader directorioUnidades = new FXMLLoader(getClass().getResource("DirectorioUnidades.fxml"));
+                Scene sceneDirectorioUnidades;
                 try {
-                    sceneUnidades = new Scene(unidades.load());
-                    stageCrearUnidad.setScene(sceneUnidades);
+                    sceneDirectorioUnidades = new Scene(directorioUnidades.load());
+                    stageCrearUnidad.setScene(sceneDirectorioUnidades);
                 } catch (IOException ex) {
                     Logger.getLogger(ProfesoresController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -186,12 +207,12 @@ public class CrearUnidadController implements Initializable {
         boolean creado = consultar.CrearUnidad(idEspecialidad, nombreUnidad, idSemestre);
         if(creado){
             crearDialogo("PoliAsistencia", "Unidad de Aprendizaje Creada", "Nombre de la Unidad: "+nombreUnidad, Alert.AlertType.INFORMATION);
-            Stage stageCrearUnidad = (Stage) (textUnidades.getScene().getWindow());
-            FXMLLoader unidades = new FXMLLoader(getClass().getResource("Unidades.fxml"));
-            Scene sceneUnidades;
+            Stage stageCrearUnidad = (Stage) (textDirectorio.getScene().getWindow());
+            FXMLLoader directorioUnidades = new FXMLLoader(getClass().getResource("DirectorioUnidades.fxml"));
+            Scene sceneDirectorioUnidades;
             try {
-                sceneUnidades = new Scene(unidades.load());
-                stageCrearUnidad.setScene(sceneUnidades);
+                sceneDirectorioUnidades = new Scene(directorioUnidades.load());
+                stageCrearUnidad.setScene(sceneDirectorioUnidades);
             } catch (IOException ex) {
                 Logger.getLogger(ProfesoresController.class.getName()).log(Level.SEVERE, null, ex);
             }

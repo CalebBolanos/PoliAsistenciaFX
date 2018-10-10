@@ -17,12 +17,14 @@ package jefeAcademia;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -35,7 +37,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import poliasistenciafx.ConsultarDatos;
+import poliasistenciafx.Especialidad;
 import poliasistenciafx.Hora;
 
 /**
@@ -63,6 +67,7 @@ public class AgregarHorarioUnidadController implements Initializable {
     @FXML
     CheckBox checkboxLunes, checkboxMartes, checkboxMiercoles, checkboxJueves, checkboxViernes;
     
+    ArrayList<ComboBox<Hora>> comoboboxDias;
     ConsultarDatos consultar;
     ObservableList<Integer> semestres;
     
@@ -70,7 +75,7 @@ public class AgregarHorarioUnidadController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         consultar = new ConsultarDatos();
-        
+        comoboboxDias = new ArrayList<>();
         textInicio.setOnMouseEntered((MouseEvent me) -> {
             textInicio.setUnderline(true);
             textInicio.setFill(Color.BLUE);
@@ -113,17 +118,32 @@ public class AgregarHorarioUnidadController implements Initializable {
         
         ObservableList<Hora> horas = crearHoras();
         
-        comboboxInicioLunes.setItems(horas);
-        comboboxFinLunes.setItems(horas);
-        comboboxInicioMartes.setItems(horas);
-        comboboxFinMartes.setItems(horas);
-        comboboxInicioMiercoles.setItems(horas);
-        comboboxFinMiercoles.setItems(horas);
-        comboboxInicioJueves.setItems(horas);
-        comboboxFinJueves.setItems(horas);
-        comboboxInicioViernes.setItems(horas);
-        comboboxFinViernes.setItems(horas);
+        comoboboxDias.add(comboboxInicioLunes);
+        comoboboxDias.add(comboboxFinLunes);
+        comoboboxDias.add(comboboxInicioMartes);
+        comoboboxDias.add(comboboxFinMartes);
+        comoboboxDias.add(comboboxInicioMiercoles);
+        comoboboxDias.add(comboboxFinMiercoles);
+        comoboboxDias.add(comboboxInicioJueves);
+        comoboboxDias.add(comboboxFinJueves);
+        comoboboxDias.add(comboboxInicioViernes);
+        comoboboxDias.add(comboboxFinViernes);
         
+        for(ComboBox<Hora> combobox : comoboboxDias){
+            combobox.setDisable(true);
+            combobox.setItems(horas);
+            combobox.setConverter(new StringConverter<Hora>() {
+            @Override
+            public String toString(Hora horax) {
+                return horax.getHora();
+            }
+            @Override
+            public Hora fromString(String string) {
+                return combobox.getItems().stream().filter(hora -> hora.getHora().equals(string)).findFirst().orElse(null);
+            }
+        });
+        }
+
         checkboxLunes.selectedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean viejoValor, Boolean nuevoValor) -> {
             comboboxInicioLunes.setDisable(!nuevoValor);
             comboboxFinLunes.setDisable(!nuevoValor);
@@ -146,6 +166,10 @@ public class AgregarHorarioUnidadController implements Initializable {
         });
     }
 
+    @FXML
+    public void ejecutarAccion(ActionEvent e){
+        
+    }
 
     public ObservableList<Hora> crearHoras(){
         ObservableList<Hora> horas = FXCollections.observableArrayList();

@@ -23,25 +23,32 @@
       <Pane layoutX="550.0" layoutY="225.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fff;" styleClass="button-raised" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
          <children>
             <Text fill="#b5b5b5" fontSmoothingType="LCD" layoutX="547.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20px;" text="Selecciona una opción" />
-            <Button fx:id="buttonCrearUnidad" layoutX="100.0" layoutY="130.0" mnemonicParsing="false" onAction="#irA" prefHeight="300.0" prefWidth="300.0" styleClass="button-raised" />
-            <Button fx:id="buttonEditarUnidad" layoutX="500.0" layoutY="130.0" mnemonicParsing="false" onAction="#irA" prefHeight="300.0" prefWidth="300.0" styleClass="button-raised" />
-            <Button fx:id="buttonEspecialidades" layoutX="900.0" layoutY="130.0" mnemonicParsing="false" onAction="#irA" prefHeight="300.0" prefWidth="300.0" styleClass="button-raised" />
-            <ImageView layoutX="582.0" layoutY="169.0">
-               <image>
-                  <Image url="@../imagenes/folder.png" />
-               </image>
-            </ImageView>
-            <Text fill="#0078f7" fontSmoothingType="LCD" layoutX="134.0" layoutY="339.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 27px;" text="Crear nueva Unidad de Aprendizaje" textAlignment="CENTER" wrappingWidth="246.029296875" />
-            <Text fill="#0078f7" fontSmoothingType="LCD" layoutX="513.0" layoutY="339.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26px;" text="Agregar horario a unidad de aprendizaje" textAlignment="CENTER" wrappingWidth="274.681672474974" />
-            <Text fill="#0078f7" layoutX="917.0" layoutY="356.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26px;" text="Especialidades" textAlignment="CENTER" wrappingWidth="265.6816622713643" />
-            <ImageView layoutX="186.0" layoutY="169.0">
+            <Button fx:id="buttonDirectorioUnidad" layoutX="61.0" layoutY="160.0" mnemonicParsing="false" onAction="#irA" prefHeight="250.0" prefWidth="250.0" styleClass="button-raised" />
+            <Button fx:id="buttonCrearUnidadHorario" layoutX="377.0" layoutY="160.0" mnemonicParsing="false" onAction="#irA" prefHeight="250.0" prefWidth="250.0" styleClass="button-raised" />
+            <Button fx:id="buttonEspecialidades" layoutX="989.0" layoutY="160.0" mnemonicParsing="false" onAction="#irA" prefHeight="250.0" prefWidth="250.0" styleClass="button-raised" />
+            <Text fill="#0078f7" fontSmoothingType="LCD" layoutX="66.0" layoutY="356.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 23px;" text="Directorio de Unidades de Aprendizaje" textAlignment="CENTER" wrappingWidth="240.68168151378632" />
+            <Text fill="#0078f7" fontSmoothingType="LCD" layoutX="377.0" layoutY="357.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 22px;" text="Crear Unidad de Aprendizaje con Horario" textAlignment="CENTER" wrappingWidth="249.99999618530273" />
+            <Text fill="#0078f7" layoutX="997.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26px;" text="Gestionar Especialidades" textAlignment="CENTER" wrappingWidth="233.68166863918304" />
+            <Button fx:id="buttonGestionarUnidadesHorario" layoutX="676.0" layoutY="160.0" mnemonicParsing="false" onAction="#irA" prefHeight="250.0" prefWidth="250.0" styleClass="button-raised" />
+            <ImageView layoutX="122.0" layoutY="188.0">
                <image>
                   <Image url="@../imagenes/materias.png" />
                </image>
             </ImageView>
-            <ImageView layoutX="986.0" layoutY="183.0">
+            <ImageView layoutX="1050.0" layoutY="199.0">
                <image>
                   <Image url="@../imagenes/mortarboard.png" />
+               </image>
+            </ImageView>
+            <ImageView layoutX="737.0" layoutY="199.0">
+               <image>
+                  <Image url="@../imagenes/folder.png" />
+               </image>
+            </ImageView>
+            <Text fill="#0078f7" fontSmoothingType="LCD" layoutX="681.0" layoutY="357.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 22px;" text="Gestionar Unidades de Aprendizaje con Horario" textAlignment="CENTER" wrappingWidth="240.681672474974" />
+            <ImageView layoutX="438.0" layoutY="188.0">
+               <image>
+                  <Image url="@../imagenes/books.png" />
                </image>
             </ImageView>
          </children></Pane>
