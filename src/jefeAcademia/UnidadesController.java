@@ -84,11 +84,11 @@ public class UnidadesController implements Initializable {
             }
         }
         if (e.getSource().equals(buttonCrearUnidadHorario)) {
-            FXMLLoader agregarHorarioUnidad = new FXMLLoader(getClass().getResource("AgregarHorarioUnidad.fxml"));
-            Scene sceneAgregarHorarioUnidad;
+            FXMLLoader elegirAgregarHorarioUnidad = new FXMLLoader(getClass().getResource("ElegirUnidadAgregarHorario.fxml"));
+            Scene sceneElegirAgregarHorarioUnidad;
             try {
-                sceneAgregarHorarioUnidad = new Scene(agregarHorarioUnidad.load());
-                stageUnidad.setScene(sceneAgregarHorarioUnidad);
+                sceneElegirAgregarHorarioUnidad = new Scene(elegirAgregarHorarioUnidad.load());
+                stageUnidad.setScene(sceneElegirAgregarHorarioUnidad);
             } catch (IOException ex) {
                 Logger.getLogger(ProfesoresController.class.getName()).log(Level.SEVERE, null, ex);
             }

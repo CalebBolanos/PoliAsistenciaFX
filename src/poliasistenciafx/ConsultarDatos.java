@@ -719,6 +719,42 @@ public class ConsultarDatos {
         }
         return borrado;
     }
+     
+    public int crearUnidadHorario(String nombreUnidad, int cupo){
+        int idUnidadHorario = 0;
+        try{
+            baseDeDatos bd = new baseDeDatos();
+            bd.conectar();
+            ResultSet rs = bd.ejecuta("call spNuevaUnidad('"+nombreUnidad+"', "+cupo+");");
+            if(rs.next()){
+                if(rs.getString("msj").equals("Todo bien")){
+                    idUnidadHorario = rs.getInt("idN");
+                }else{
+                    idUnidadHorario = -1;
+                }
+            }
+            bd.cierraConexion();
+        }catch(SQLException ex){
+            Logger.getLogger(ConsultarDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return idUnidadHorario;
+    }
+    
+    public boolean guardarUnidadHorario(int idUnidadHorario, int horaInicio, int horaFinal, int dia){
+        boolean borrado = false;
+        try{
+            baseDeDatos bd = new baseDeDatos();
+            bd.conectar();
+            ResultSet rs = bd.ejecuta("call spUnidadHorario("+idUnidadHorario+", "+horaInicio+", "+horaFinal+", "+dia+");");
+            if(rs.next()){
+                borrado = rs.getString("msj").equals("Registro con exito");
+            }
+            bd.cierraConexion();
+        }catch(SQLException ex){
+            Logger.getLogger(ConsultarDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return borrado;
+    }
     
     public String evaluarHora(int valorHora) {
         String hora;

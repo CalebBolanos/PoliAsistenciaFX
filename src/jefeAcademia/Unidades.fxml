@@ -27,7 +27,7 @@
             <Button fx:id="buttonCrearUnidadHorario" layoutX="377.0" layoutY="160.0" mnemonicParsing="false" onAction="#irA" prefHeight="250.0" prefWidth="250.0" styleClass="button-raised" />
             <Button fx:id="buttonEspecialidades" layoutX="989.0" layoutY="160.0" mnemonicParsing="false" onAction="#irA" prefHeight="250.0" prefWidth="250.0" styleClass="button-raised" />
             <Text fill="#0078f7" fontSmoothingType="LCD" layoutX="66.0" layoutY="356.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 23px;" text="Directorio de Unidades de Aprendizaje" textAlignment="CENTER" wrappingWidth="240.68168151378632" />
-            <Text fill="#0078f7" fontSmoothingType="LCD" layoutX="377.0" layoutY="357.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 22px;" text="Crear Unidad de Aprendizaje con Horario" textAlignment="CENTER" wrappingWidth="249.99999618530273" />
+            <Text fill="#0078f7" fontSmoothingType="LCD" layoutX="377.0" layoutY="357.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 22px;" text="Crear Horario de una Unidad de Aprendizaje" textAlignment="CENTER" wrappingWidth="249.99999618530273" />
             <Text fill="#0078f7" layoutX="997.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 26px;" text="Gestionar Especialidades" textAlignment="CENTER" wrappingWidth="233.68166863918304" />
             <Button fx:id="buttonGestionarUnidadesHorario" layoutX="676.0" layoutY="160.0" mnemonicParsing="false" onAction="#irA" prefHeight="250.0" prefWidth="250.0" styleClass="button-raised" />
             <ImageView layoutX="122.0" layoutY="188.0">
