@@ -94,7 +94,14 @@ public class UnidadesController implements Initializable {
             }
         }
         if (e.getSource().equals(buttonGestionarUnidadesHorario)) {
-            
+            FXMLLoader gestionarUnidades = new FXMLLoader(getClass().getResource("GestionarUnidadesHorario.fxml"));
+            Scene sceneGestionarUnidades;
+            try {
+                sceneGestionarUnidades = new Scene(gestionarUnidades.load());
+                stageUnidad.setScene(sceneGestionarUnidades);
+            } catch (IOException ex) {
+                Logger.getLogger(ProfesoresController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         if (e.getSource().equals(buttonEspecialidades)) {
             
