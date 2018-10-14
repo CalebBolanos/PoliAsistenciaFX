@@ -217,8 +217,8 @@ public class GestionarUnidadesHorarioController implements Initializable {
                 Alert alertError = new Alert(Alert.AlertType.ERROR);
                 alertError.setTitle("PoliAsistencia");
                 alertError.setHeaderText("Error al borrarunidad");
-                alertError.setContentText("Lo sentimos, pero no borrar la unidad porque no existe");
-                alert.showAndWait();
+                alertError.setContentText("Lo sentimos, pero no se puede borrar la unidad porque no existe");
+                alertError.showAndWait();
                 actualizarTabla();
             }
         } else {

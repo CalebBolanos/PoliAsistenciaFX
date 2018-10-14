@@ -858,6 +858,22 @@ public class ConsultarDatos {
         return borrado;
     }
     
+    public boolean agregarEspecialidad(String nombreEspecialidad){
+        boolean guardado = false;
+        try{
+            baseDeDatos bd = new baseDeDatos();
+            bd.conectar();
+            ResultSet rs = bd.ejecuta("call spGuardaArea('"+nombreEspecialidad+"', 'POL');");
+            if(rs.next()){
+                guardado = rs.getString("msj").equals("Guardado correctamente");
+            }
+            bd.cierraConexion();
+        }catch(SQLException ex){
+            Logger.getLogger(ConsultarDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return guardado;
+    }
+    
     public String evaluarHora(int valorHora) {
         String hora;
         switch (valorHora) {

@@ -104,7 +104,14 @@ public class UnidadesController implements Initializable {
             }
         }
         if (e.getSource().equals(buttonEspecialidades)) {
-            
+            FXMLLoader gestionarEspecialidades = new FXMLLoader(getClass().getResource("GestionarEspecialidades.fxml"));
+            Scene sceneGestionarEspecialidades;
+            try {
+                sceneGestionarEspecialidades = new Scene(gestionarEspecialidades.load());
+                stageUnidad.setScene(sceneGestionarEspecialidades);
+            } catch (IOException ex) {
+                Logger.getLogger(ProfesoresController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     
