@@ -46,7 +46,7 @@ public class IniciarSesionController implements Initializable {
 
     }
     
-        @FXML
+    @FXML
     private void iniciarSesion(ActionEvent e) throws IOException {
         String usr = textfieldUsuario.getText();
         String pass = passwordfieldContrasena.getText();
@@ -57,12 +57,14 @@ public class IniciarSesionController implements Initializable {
             if (val.sinVacios(pass, "la contraseña", 60)) {
                 id = ses.iniciaSesion(usr, pass);
                 if (id[0] > 0) {
+                    Stage stageInicioSesion = (Stage) ((Node) e.getSource()).getScene().getWindow();
                     switch (id[1]) {
                         case 1://gestion
-                            System.out.println("gestion");
+                            FXMLLoader inicioGestion = new FXMLLoader(getClass().getResource("/gestionEscolar/Inicio.fxml"));
+                            Scene sceneInicioGestion = new Scene(inicioGestion.load());
+                            stageInicioSesion.setScene(sceneInicioGestion);
                             break;
                         case 4:///jefe de academia
-                            Stage stageInicioSesion = (Stage) ((Node) e.getSource()).getScene().getWindow();
                             FXMLLoader inicioJefe = new FXMLLoader(getClass().getResource("/jefeAcademia/Inicio.fxml"));
                             Scene sceneInicioJefe = new Scene(inicioJefe.load());
                             stageInicioSesion.setScene(sceneInicioJefe);
