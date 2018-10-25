@@ -3,9 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Caleb/Documents/GitHub/PoliAsistenciaFX/src/jefeAcademia/GestionarProfesoresGrupoController.java</file>
-            <file>file:/C:/Users/Caleb/Documents/GitHub/PoliAsistenciaFX/src/jefeAcademia/GestionarUnidadesHorarioController.java</file>
-            <file>file:/C:/Users/Caleb/Documents/GitHub/PoliAsistenciaFX/src/jefeAcademia/GestionarUnidadesHorario.fxml</file>
+            <file>file:/C:/Users/Caleb/Documents/GitHub/PoliAsistenciaFX/src/gestionEscolar/RegistrarAlumnoController.java</file>
+            <file>file:/C:/Users/Caleb/Documents/GitHub/PoliAsistenciaFX/src/poliasistenciafx/ConsultarDatos.java</file>
+            <file>file:/C:/Users/Caleb/Documents/GitHub/PoliAsistenciaFX/src/jefeAcademia/GestionarUnidadesProfesorController.java</file>
         </group>
     </open-files>
 </project-private>

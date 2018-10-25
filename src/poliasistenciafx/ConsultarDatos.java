@@ -874,6 +874,92 @@ public class ConsultarDatos {
         return guardado;
     }
     
+    public ObservableList<Persona> obtenerDatosAlumnos(){
+         ObservableList<Persona> datos = FXCollections.observableArrayList();
+         baseDeDatos base = new baseDeDatos();
+        try{
+            base.conectar();
+            ResultSet resultado = base.ejecuta("select * from vwAlumnos where idPersona > 0;");
+            Persona personax;
+            while(resultado.next()){
+                personax = new Persona();
+                personax.setNumero(resultado.getString("boleta"));
+                personax.setNombre(resultado.getString("nombre"));
+                personax.setPaterno(resultado.getString("paterno"));
+                personax.setMaterno(resultado.getString("materno"));
+                personax.setGenero(resultado.getString("genero"));
+                datos.add(personax);
+                personax = null;
+            }
+            base.cierraConexion();
+        }catch(SQLException ex){
+            Logger.getLogger(ConsultarDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return datos;
+    }
+    
+     public String[] obtenerAlumno(String boleta){
+        String datos[] = new String[8];
+        String genero="";
+        baseDeDatos bd = new baseDeDatos();
+        try{
+            bd.conectar();
+            ResultSet rs = bd.ejecuta("call spTraerDatos('"+boleta+"', 'Pol');");
+            while(rs.next()){
+                datos[0] = rs.getString("existe");
+                datos[1] = rs.getString("nom");
+                datos[2] = rs.getString("pat");
+                datos[3] = rs.getString("mat");
+                genero = rs.getString("gen");
+                switch(genero){
+                    case "masculino":
+                        datos[4] = "1";
+                        break;
+                    case "femenino":
+                        datos[4] = "2";
+                        break;
+                    case "otro":
+                        datos[4] = "3";
+                        break;
+                    default:
+                        datos[4] = "0";
+                }
+                datos[5] = rs.getString("bol");
+                datos[6] = rs.getString("fec");
+                datos[7] = rs.getString("idPr");
+            }
+            bd.cierraConexion();
+        }catch(SQLException e){
+            Logger.getLogger(ConsultarDatos.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return datos;
+    }
+    
+     public int editarDatosAlumno(String boletaAntigua, String boletaNueva, String nombre, String paterno, String materno, String fecha){
+        int id = 0;
+        baseDeDatos bd = new baseDeDatos();
+        try {
+            bd.conectar();
+            ResultSet rs = bd.ejecuta("call spEditaAlumno('"+nombre+"', '"+paterno+"', '"+materno+"', '"+fecha+"', '"+boletaNueva+"', '"+boletaAntigua+"');");
+            if(rs.next()){
+                switch (rs.getString("msj")){
+                    case "Datos del alumno actualizados":
+                        id = rs.getInt("idP");
+                        break;
+                    case "Ya hay un alumno registrado con la nueva boleta":
+                        id = -1;
+                        break;
+                    case "La boleta ingresada no corresponde a ningun alumno registrado":
+                        id = -2;
+                        break;
+                }
+            }
+            bd.cierraConexion();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultarDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id;
+    }
     public String evaluarHora(int valorHora) {
         String hora;
         switch (valorHora) {

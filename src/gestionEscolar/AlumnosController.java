@@ -84,7 +84,14 @@ public class AlumnosController implements Initializable {
             }
         }
         if(e.getSource().equals(buttonEditarDatos)){
-            
+            FXMLLoader elegirAlumnoDatos = new FXMLLoader(getClass().getResource("ElegirAlumnoEditarDatos.fxml"));
+            Scene sceneElegirAlumnoDatos;
+            try {
+                sceneElegirAlumnoDatos = new Scene(elegirAlumnoDatos.load());
+                stageAlumnos.setScene(sceneElegirAlumnoDatos);
+            } catch (IOException ex) {
+                Logger.getLogger(ProfesoresController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     
