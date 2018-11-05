@@ -18,6 +18,7 @@ package gestionEscolar;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +27,9 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import poliasistenciafx.ConsultarDatos;
+import static poliasistenciafx.IniciarSesionController.ID_PERSONA;
+import poliasistenciafx.Persona;
 
 /**
  * FXML Controller class
@@ -39,11 +43,19 @@ public class InicioController implements Initializable {
      */
     
     @FXML
-    Button buttonAlumnos, buttonGruposUnidades, buttonCerrarSesion;
+    Button buttonAlumnos, buttonGruposUnidades, buttonCerrarSesion, buttonAjustes;
+    
+    Preferences sesionUsr;
+    ConsultarDatos consultar;
+    private int idPersona = 0;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        sesionUsr = Preferences.userRoot();
+        idPersona = sesionUsr.getInt(ID_PERSONA, 0);
+        consultar = new ConsultarDatos();
+        Persona persona = consultar.obtenerDatosUsuario(idPersona) == null ? new Persona() : consultar.obtenerDatosUsuario(idPersona);
+        buttonAjustes.setText(persona.getNombre());
     }
     
     @FXML
@@ -63,7 +75,7 @@ public class InicioController implements Initializable {
             stageInicioGestion.setScene(sceneProfesores);
         }
         if(e.getSource().equals(buttonGruposUnidades)){
-            FXMLLoader grupos = new FXMLLoader(getClass().getResource("Grupos.fxml"));
+            FXMLLoader grupos = new FXMLLoader(getClass().getResource("ElegirAlumnoAsignarUnidades.fxml"));
             Scene sceneGrupos = new Scene(grupos.load());
             stageInicioGestion.setScene(sceneGrupos);
         }

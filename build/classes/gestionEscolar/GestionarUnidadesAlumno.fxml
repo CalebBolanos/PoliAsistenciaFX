@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<AnchorPane id="AnchorPane" prefHeight="650.0" prefWidth="1300.0" stylesheets="@../css/MaterialFX.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Pane fx:id="paneTitulo" layoutX="543.0" layoutY="41.0" prefHeight="100.0" prefWidth="1300.0" style="-fx-background-color: #f7f7f7;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Text fx:id="textTitulo" fill="#0078f7" fontSmoothingType="LCD" layoutX="45.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 35px;" text="Gestionar Unidades de Aprendizaje" />
+            <TextFlow fx:id="textFlow" layoutX="46.0" layoutY="30.0" prefHeight="17.0" prefWidth="501.0">
+               <children>
+                  <Text fx:id="textInicio" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Inicio&gt;" />
+                  <Text fx:id="textAlumnos" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Alumnos&gt;" />
+                  <Text fx:id="textElegirAlumno" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Elegir Alumno&gt;" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Gestionar Unidades de Aprendizaje" />
+               </children>
+            </TextFlow>
+         </children></Pane>
+        <Pane fx:id="paneHuellaDigital" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fff;" styleClass="button-raised" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+             <children>
+                <Text fx:id="textSubtitulo" fill="#686868" layoutX="63.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 27px;" text="Unidades de Aprendizaje inscritas de " />
+                <Line endX="1057.0" layoutX="164.0" layoutY="62.0" startX="-100.0" stroke="#b5b5b5" />
+                <Button fx:id="buttonAgregarUnidad" layoutX="820.0" layoutY="490.0" mnemonicParsing="false" onAction="#mostrarUnidades" style="-fx-text-fill: #07c401;" styleClass="button-raised" text="Agregar Unidad de Aprendizaje" />
+            <TableView fx:id="tableViewUnidades" layoutX="16.0" layoutY="121.0" prefHeight="353.0" prefWidth="1266.0">
+              <columns>
+                  <TableColumn fx:id="tablecolumnGrupo" prefWidth="170.0" text="Grupo">
+                      <cellValueFactory><PropertyValueFactory property="grupo" />
+                      </cellValueFactory>
+                  </TableColumn>
+                <TableColumn fx:id="tablecolumnUnidad" prefWidth="230.0" text="Unidad de Aprendizaje">
+                      <cellValueFactory><PropertyValueFactory property="unidad" />
+                      </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="tablecolumnProfesor" prefWidth="230.0" text="Profesor">
+                    <cellValueFactory><PropertyValueFactory property="profesor" />
+                      </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="tablecolumnLunes" minWidth="0.0" prefWidth="120.0" text="Lunes">
+                      <cellValueFactory><PropertyValueFactory property="lunes" />
+                      </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="tablecolumnMartes" prefWidth="120.0" text="Martes">
+                      <cellValueFactory><PropertyValueFactory property="martes" />
+                      </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="tablecolumnMiercoles" prefWidth="120.0" text="Miércoles">
+                      <cellValueFactory><PropertyValueFactory property="miercoles" />
+                      </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="tablecolumnJueves" minWidth="0.0" prefWidth="120.0" text="Jueves">
+                      <cellValueFactory><PropertyValueFactory property="jueves" />
+                      </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="tablecolumnViernes" prefWidth="120.0" text="Viernes">
+                      <cellValueFactory><PropertyValueFactory property="viernes" />
+                      </cellValueFactory>
+                </TableColumn>
+              </columns>
+            </TableView>
+            <TextField fx:id="textfieldBuscar" layoutX="63.0" layoutY="73.0" prefWidth="1165.0" promptText="Buscar..." />
+            <Button fx:id="buttonBorrarUnidad" layoutX="1066.0" layoutY="490.0" mnemonicParsing="false" onAction="#borrarUnidadDeAprendizaje" style="-fx-text-fill: #f44242;" styleClass="button-raised" text="Borrar Unidad de Aprendizaje" />
+            <Button fx:id="buttonUnidadesGrupo" layoutX="18.0" layoutY="490.0" mnemonicParsing="false" onAction="#mostrarGrupos" styleClass="button-raised" text="Agregar Unidades de Aprendizaje de un Grupo" />
+             </children>
+          </Pane>
+    </children>
+</AnchorPane>

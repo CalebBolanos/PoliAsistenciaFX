@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<AnchorPane id="AnchorPane" prefHeight="650.0" prefWidth="1300.0" stylesheets="@../css/MaterialFX.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="gestionEscolar.ElegirAlumnoAsignarUnidadesController">
+    <children>
+      <Pane fx:id="paneTitulo" layoutX="543.0" layoutY="41.0" prefHeight="100.0" prefWidth="1300.0" style="-fx-background-color: #f7f7f7;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Text fx:id="textTitulo" fill="#0078f7" fontSmoothingType="LCD" layoutX="46.0" layoutY="86.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 35px;" text="Elegir Alumno para gestionar sus Unidades de Aprendizaje" wrappingWidth="994.64794921875" />
+            <TextFlow fx:id="textFlow" layoutX="46.0" layoutY="30.0" prefHeight="17.0" prefWidth="225.0">
+               <children>
+                  <Text fx:id="textInicio" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Inicio&gt;" />
+                  <Text fx:id="textAlumnos" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Alumnos&gt;" />
+                  <Text fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Elegir Alumno" />
+               </children>
+            </TextFlow>
+         </children></Pane>
+      <Pane fx:id="paneDatosPersonales" layoutX="550.0" layoutY="225.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #fff;" styleClass="button-raised" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+         <children>
+            <TableView fx:id="tableviewAlumnos" layoutX="33.0" layoutY="81.0" onMouseClicked="#obtenerDatos" prefHeight="449.0" prefWidth="1235.0" style="-fx-background-color: #fff;" styleClass="button-raised">
+              <columns>
+                  <TableColumn fx:id="tablecolumnNumero" prefWidth="254.0" text="Numero de Boleta">
+                      <cellValueFactory><PropertyValueFactory property="numero" />
+                      </cellValueFactory>
+                  </TableColumn>
+                  <TableColumn fx:id="tablecolumnNombre" prefWidth="290.0" text="Nombre">
+                      <cellValueFactory><PropertyValueFactory property="nombre" />
+                      </cellValueFactory>
+                  </TableColumn>
+                  <TableColumn fx:id="tablecolumnPaterno" prefWidth="243.0" text="Apellido Paterno">
+                      <cellValueFactory><PropertyValueFactory property="paterno" />
+                      </cellValueFactory>
+                  </TableColumn>
+                  <TableColumn fx:id="tablecolumnMaterno" prefWidth="231.0" text="Apellido Materno">
+                      <cellValueFactory><PropertyValueFactory property="materno" />
+                      </cellValueFactory>
+                  </TableColumn>
+                  <TableColumn fx:id="tablecolumnGenero" prefWidth="186.0" text="Genero">
+                      <cellValueFactory><PropertyValueFactory property="genero" />
+                      </cellValueFactory>
+                  </TableColumn>
+              </columns>
+            </TableView>
+            <TextField fx:id="textfieldBuscar" layoutX="33.0" layoutY="29.0" prefHeight="34.0" prefWidth="1235.0" promptText="Buscar..." />
+         </children>
+      </Pane>
+    </children>
+</AnchorPane>

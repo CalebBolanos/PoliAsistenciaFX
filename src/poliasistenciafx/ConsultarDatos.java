@@ -960,6 +960,264 @@ public class ConsultarDatos {
         }
         return id;
     }
+     
+    public ObservableList<UnidadGrupo> obtenerUnidadesAlumnoInscritas(String boleta){
+        ObservableList<UnidadGrupo> unidades = FXCollections.observableArrayList();
+        UnidadGrupo unidadx;
+        int idUnidad = 0;
+        boolean recopilarDatos = false;
+        String lunes = "---", martes = "---", miercoles = "---", jueves = "---", viernes = "---", nombreUnidad = "", grupo = "", profesor = "";
+        baseDeDatos bd = new baseDeDatos();
+        try {
+            bd.conectar();
+            ResultSet rs = bd.ejecuta("select * from vwUnidadesAlumnos where boleta = '"+boleta+"';");
+            while(rs.next()){
+                if(idUnidad == rs.getInt("idUnidad")){
+                    recopilarDatos = true;
+                    switch(rs.getInt("idDia")){
+                        case 1://lunes
+                            lunes = evaluarHora(rs.getInt("idHorarioI")) +" - "+ evaluarHora(rs.getInt("idHorarioF"));
+                            break;
+                        case 2://martes
+                            martes = evaluarHora(rs.getInt("idHorarioI")) +" - "+ evaluarHora(rs.getInt("idHorarioF"));
+                            break;
+                        case 3://miercoles
+                            miercoles = evaluarHora(rs.getInt("idHorarioI")) +" - "+ evaluarHora(rs.getInt("idHorarioF"));
+                            break;
+                        case 4://jueves
+                            jueves = evaluarHora(rs.getInt("idHorarioI")) +" - "+ evaluarHora(rs.getInt("idHorarioF"));
+                            break;
+                        case 5://viernes
+                            viernes = evaluarHora(rs.getInt("idHorarioI")) +" - "+ evaluarHora(rs.getInt("idHorarioF"));
+                            break;  
+                    }
+                }
+                else{
+                    if(recopilarDatos){
+                        unidadx = new UnidadGrupo(idUnidad, grupo, nombreUnidad, profesor, lunes, martes, miercoles, jueves, viernes, 0, 0);
+                        unidades.add(unidadx);
+                        lunes = "---";
+                        martes = "---";
+                        miercoles = "---"; jueves = "---";
+                        viernes = "---"; 
+                        nombreUnidad = "";
+                        grupo = "";
+                        profesor = "";
+                        unidadx = null;
+                        recopilarDatos = false;
+                    }
+                    idUnidad = rs.getInt("idUnidad");
+                    nombreUnidad = rs.getString("materia");
+                    grupo = rs.getString("grupo");
+                    profesor = rs.getString("Nombre");
+                    switch(rs.getInt("idDia")){
+                        case 1://lunes
+                            lunes = evaluarHora(rs.getInt("idHorarioI")) +" - "+ evaluarHora(rs.getInt("idHorarioF"));
+                            break;
+                        case 2://martes
+                            martes = evaluarHora(rs.getInt("idHorarioI")) +" - "+ evaluarHora(rs.getInt("idHorarioF"));
+                            break;
+                        case 3://miercoles
+                            miercoles = evaluarHora(rs.getInt("idHorarioI")) +" - "+ evaluarHora(rs.getInt("idHorarioF"));
+                            break;
+                        case 4://jueves
+                            jueves = evaluarHora(rs.getInt("idHorarioI")) +" - "+ evaluarHora(rs.getInt("idHorarioF"));
+                            break;
+                        case 5://viernes
+                            viernes = evaluarHora(rs.getInt("idHorarioI")) +" - "+ evaluarHora(rs.getInt("idHorarioF"));
+                            break;  
+                    }
+                    recopilarDatos = true;
+                    
+                }
+                
+            }
+            if(recopilarDatos){
+                unidadx = new UnidadGrupo(idUnidad, grupo, nombreUnidad, profesor, lunes, martes, miercoles, jueves, viernes, 0, 0);
+                unidades.add(unidadx);
+                lunes = "---";
+                martes = "---";
+                miercoles = "---"; jueves = "---";
+                viernes = "---"; 
+                nombreUnidad = "";
+                unidadx = null;
+                grupo = "";
+                profesor = "";
+                recopilarDatos = false;
+            }
+            bd.cierraConexion();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultarDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return unidades;
+    }
+    
+    public ObservableList<UnidadGrupo> obtenerUnidadesAlumnoDisponibles(){
+        ObservableList<UnidadGrupo> unidades = FXCollections.observableArrayList();
+        UnidadGrupo unidadx;
+        int idUnidad = 0, cupo = 0, disponibilidad = 0;
+        boolean recopilarDatos = false;
+        String lunes = "---", martes = "---", miercoles = "---", jueves = "---", viernes = "---", nombreUnidad = "", grupo = "", profesor = "";
+        baseDeDatos bd = new baseDeDatos();
+        try {
+            bd.conectar();
+            ResultSet rs = bd.ejecuta("select * from vwunidadeshorarios;");
+            while(rs.next()){
+                if(idUnidad == rs.getInt("idUnidad")){
+                    recopilarDatos = true;
+                    switch(rs.getInt("idDia")){
+                        case 1://lunes
+                            lunes = evaluarHora(rs.getInt("idHorarioI")) +" - "+ evaluarHora(rs.getInt("idHorarioF"));
+                            break;
+                        case 2://martes
+                            martes = evaluarHora(rs.getInt("idHorarioI")) +" - "+ evaluarHora(rs.getInt("idHorarioF"));
+                            break;
+                        case 3://miercoles
+                            miercoles = evaluarHora(rs.getInt("idHorarioI")) +" - "+ evaluarHora(rs.getInt("idHorarioF"));
+                            break;
+                        case 4://jueves
+                            jueves = evaluarHora(rs.getInt("idHorarioI")) +" - "+ evaluarHora(rs.getInt("idHorarioF"));
+                            break;
+                        case 5://viernes
+                            viernes = evaluarHora(rs.getInt("idHorarioI")) +" - "+ evaluarHora(rs.getInt("idHorarioF"));
+                            break;  
+                    }
+                }
+                else{
+                    if(recopilarDatos){
+                        unidadx = new UnidadGrupo(idUnidad, grupo, nombreUnidad, profesor, lunes, martes, miercoles, jueves, viernes, cupo, disponibilidad);
+                        unidades.add(unidadx);
+                        lunes = "---";
+                        martes = "---";
+                        miercoles = "---"; jueves = "---";
+                        viernes = "---"; 
+                        nombreUnidad = "";
+                        grupo = "";
+                        profesor = "";
+                        cupo = 0;
+                        disponibilidad = 0;
+                        unidadx = null;
+                        recopilarDatos = false;
+                    }
+                    idUnidad = rs.getInt("idUnidad");
+                    nombreUnidad = rs.getString("materia");
+                    grupo = rs.getString("grupo");
+                    profesor = rs.getString("Nombre");
+                    cupo = rs.getInt("cupo");
+                    disponibilidad = rs.getInt("disponibilidad");
+                    switch(rs.getInt("idDia")){
+                        case 1://lunes
+                            lunes = evaluarHora(rs.getInt("idHorarioI")) +" - "+ evaluarHora(rs.getInt("idHorarioF"));
+                            break;
+                        case 2://martes
+                            martes = evaluarHora(rs.getInt("idHorarioI")) +" - "+ evaluarHora(rs.getInt("idHorarioF"));
+                            break;
+                        case 3://miercoles
+                            miercoles = evaluarHora(rs.getInt("idHorarioI")) +" - "+ evaluarHora(rs.getInt("idHorarioF"));
+                            break;
+                        case 4://jueves
+                            jueves = evaluarHora(rs.getInt("idHorarioI")) +" - "+ evaluarHora(rs.getInt("idHorarioF"));
+                            break;
+                        case 5://viernes
+                            viernes = evaluarHora(rs.getInt("idHorarioI")) +" - "+ evaluarHora(rs.getInt("idHorarioF"));
+                            break;  
+                    }
+                    recopilarDatos = true;
+                    
+                }
+                
+            }
+            if(recopilarDatos){
+                unidadx = new UnidadGrupo(idUnidad, grupo, nombreUnidad, profesor, lunes, martes, miercoles, jueves, viernes, cupo, disponibilidad);
+                unidades.add(unidadx);
+                lunes = "---";
+                martes = "---";
+                miercoles = "---"; jueves = "---";
+                viernes = "---"; 
+                nombreUnidad = "";
+                grupo = "";
+                profesor = "";
+                cupo = 0;
+                disponibilidad = 0;
+                unidadx = null;
+                recopilarDatos = false;
+            }
+            bd.cierraConexion();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultarDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return unidades;
+    }
+    
+    public boolean agregarUnidadAlumno(int idUnidad, String boleta){
+        boolean unidadAgregada = false;
+        baseDeDatos bd = new baseDeDatos();
+        try {
+            bd.conectar();
+            ResultSet rs = bd.ejecuta("call spGuardaUnidadesAlumno("+idUnidad + ", '" + boleta + "');");
+            if(rs.next()){
+                unidadAgregada = rs.getString("msj").equals("ok");
+            }
+            bd.cierraConexion();
+        } 
+        catch (SQLException ex) {
+            Logger.getLogger(ConsultarDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return unidadAgregada;
+    }
+    
+    public boolean borrarUnidadAlumno(int idUnidad, String boleta){
+        boolean unidadBorrada = false;
+        baseDeDatos bd = new baseDeDatos();
+        try {
+            bd.conectar();
+            ResultSet rs = bd.ejecuta("call spBorraAlumnoUnidad("+idUnidad + ", '" + boleta + "');");
+            if(rs.next()){
+                unidadBorrada = rs.getString("msj").equals("ok");
+            }
+            bd.cierraConexion();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultarDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return unidadBorrada;
+    }
+    
+    public boolean agregarUnidadGrupoAlumno(String boleta, String nombreGruo){
+        boolean unidadesInscritas = false;
+        baseDeDatos bd = new baseDeDatos();
+        try {
+            bd.conectar();
+            ResultSet rs = bd.ejecuta("call spGuardaAlumnosGrupo('"+boleta+"', '"+nombreGruo+"');");
+            if(rs.next()){
+                unidadesInscritas = rs.getString("msj").equals("ok");
+            }
+            bd.cierraConexion();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultarDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return unidadesInscritas;
+    }
+     
+    public Persona obtenerDatosUsuario(int idPersona){
+        Persona personax = null;
+        baseDeDatos bd = new baseDeDatos();
+        try {
+            bd.conectar();
+            ResultSet rs = bd.ejecuta("select * from vwtrabajadores where idPersona = "+idPersona+";");
+            if(rs.next()){
+                personax = new Persona(rs.getString("numTrabajador"), 
+                        rs.getString("nombre"), 
+                        rs.getString("paterno"), 
+                        rs.getString("materno"), 
+                        rs.getString("genero"));
+            }
+            bd.cierraConexion();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultarDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return personax;
+    }
+     
     public String evaluarHora(int valorHora) {
         String hora;
         switch (valorHora) {

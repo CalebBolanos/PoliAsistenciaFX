@@ -7,13 +7,13 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="650.0" prefWidth="1300.0" style="-fx-background-color: #fff;" stylesheets="@../css/MaterialFX.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="gestionEscolar.InicioController">
+<AnchorPane id="AnchorPane" prefHeight="650.0" prefWidth="1300.0" style="-fx-background-color: #fff;" stylesheets="@../css/MaterialFX.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionEscolar.InicioController">
     <children>
       <Pane fx:id="paneTitulo" layoutX="432.0" layoutY="82.0" prefHeight="80.0" prefWidth="1300.0" style="-fx-background-color: #f7f7f7;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Text fx:id="textTitulo" fontSmoothingType="LCD" layoutX="605.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40;" text="Inicio" textAlignment="CENTER" />
             <Button fx:id="buttonCerrarSesion" layoutX="35.0" layoutY="21.0" mnemonicParsing="false" onAction="#cerrarSesion" text="Cerrar Sesión" />
-            <Button fx:id="buttonAjustes" layoutX="1182.0" layoutY="20.0" mnemonicParsing="false" stylesheets="@../css/MaterialFX.css" text="nombre" />
+            <Button fx:id="buttonAjustes" layoutX="1083.0" layoutY="21.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="180.0" stylesheets="@../css/MaterialFX.css" text="nombre" />
          </children>
       </Pane>
       <Pane fx:id="paneContenido" layoutX="446.0" layoutY="287.0" prefHeight="200.0" prefWidth="400.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0); -fx-background-color: #ffffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">

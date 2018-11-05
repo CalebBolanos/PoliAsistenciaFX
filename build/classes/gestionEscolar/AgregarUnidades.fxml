@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="541.0" prefWidth="1001.0" style="-fx-background-color: #f7f7f7;" stylesheets="@../css/MaterialFX.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1">
+    <children>
+        <TableView fx:id="tableviewUnidades" layoutX="5.0" layoutY="106.0" onMouseClicked="#elegirUnidad" prefHeight="426.0" prefWidth="992.0">
+              <columns>
+                  <TableColumn fx:id="tablecolumnGrupo" text="Grupo" >
+                      <cellValueFactory><PropertyValueFactory property="grupo" />
+                      </cellValueFactory>
+                  </TableColumn>
+                <TableColumn fx:id="tablecolumnUnidad" prefWidth="170.0" text="Unidad de Aprendizaje">
+                      <cellValueFactory><PropertyValueFactory property="unidad" />
+                      </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="tablecolumnProfesor" prefWidth="170.0" text="Profesor" >
+                    <cellValueFactory><PropertyValueFactory property="profesor" />
+                      </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="tablecolumnLunes" minWidth="0.0" text="Lunes">
+                      <cellValueFactory><PropertyValueFactory property="lunes" />
+                      </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="tablecolumnMartes" text="Martes">
+                      <cellValueFactory><PropertyValueFactory property="martes" />
+                      </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="tablecolumnMiercoles" text="Miércoles">
+                      <cellValueFactory><PropertyValueFactory property="miercoles" />
+                      </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="tablecolumnJueves" minWidth="0.0" text="Jueves">
+                      <cellValueFactory><PropertyValueFactory property="jueves" />
+                      </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="tablecolumnViernes" text="Viernes">
+                      <cellValueFactory><PropertyValueFactory property="viernes" />
+                      </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="tablecolumnCupo" prefWidth="70.0" text="Cupo" >
+                    <cellValueFactory><PropertyValueFactory property="cupo" />
+                      </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="tablecolumnDisponible" prefWidth="79.0" text="Disponible" >
+                    <cellValueFactory><PropertyValueFactory property="disponibilidad" />
+                      </cellValueFactory>
+                </TableColumn>
+              </columns>
+            </TableView>
+      <TextField fx:id="textfieldBuscar" layoutX="18.0" layoutY="58.0" prefHeight="36.0" prefWidth="973.0" promptText="Buscar...." />
+      <Text layoutX="20.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 25px;" text="Da clic en la unidad de aprendizaje que deseas inscribir" />
+      <Button fx:id="buttonCancelar" layoutX="910.0" layoutY="15.0" mnemonicParsing="false" onAction="#cerrarVentana" style="-fx-text-fill: #f44242;" text="Cancelar" />
+    </children>
+</AnchorPane>

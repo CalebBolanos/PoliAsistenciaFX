@@ -37,7 +37,12 @@ import jefeAcademia.ProfesoresController;
 import poliasistenciafx.ConsultarDatos;
 import poliasistenciafx.Persona;
 
-public class ElegirAlumnoEditarDatosController implements Initializable {
+/**
+ * FXML Controller class
+ *
+ * @author Caleb
+ */
+public class ElegirAlumnoAsignarUnidadesController implements Initializable {
 
     /**
      * Initializes the controller class.
@@ -104,14 +109,14 @@ public class ElegirAlumnoEditarDatosController implements Initializable {
         }
     }
     
-    public void irAEditarDatos(Persona persona, String fechaNacimiento, int idPersona){
+    public void irAGestionarUnidades(Persona persona, int idPersona){
         Stage stageElegirAlumno = (Stage) (textInicio.getScene().getWindow());
-        EditarDatosAlumnosController editar = new EditarDatosAlumnosController(persona, fechaNacimiento, idPersona);
-        FXMLLoader editarDatos = new FXMLLoader(getClass().getResource("EditarDatosAlumnos.fxml"));
-        editarDatos.setController(editar);
+        GestionarUnidadesAlumnoController gestionar = new GestionarUnidadesAlumnoController(persona, idPersona);
+        FXMLLoader gestionarUnidades = new FXMLLoader(getClass().getResource("GestionarUnidadesAlumno.fxml"));
+        gestionarUnidades.setController(gestionar);
         try {
-            Scene sceneEditarDatos = new Scene(editarDatos.load());
-            stageElegirAlumno.setScene(sceneEditarDatos);
+            Scene sceneGestionarUnidades = new Scene(gestionarUnidades.load());
+            stageElegirAlumno.setScene(sceneGestionarUnidades);
         } catch (IOException ex) {
             Logger.getLogger(ProfesoresController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -153,7 +158,8 @@ public class ElegirAlumnoEditarDatosController implements Initializable {
         Persona personax = tableviewAlumnos.getSelectionModel().getSelectedItem();
         if(personax != null){
             String[] datos = consultar.obtenerAlumno(personax.getNumero());
-            irAEditarDatos(personax, datos[6], Integer.parseInt(datos[7]));
+            irAGestionarUnidades(personax, Integer.parseInt(datos[7]));
         }
-    }
+    }  
+    
 }
