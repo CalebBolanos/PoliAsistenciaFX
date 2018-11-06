@@ -37,6 +37,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
@@ -69,6 +70,8 @@ public class RegistrarProfesorController implements Initializable {
     Text textInicio, textProfesores;
     @FXML
     Button buttonContinuar, buttonCancelar, buttonAgregarHuella, buttonBorrarHuella, buttonGuardar;
+    @FXML
+    CheckBox checkboxJefe;
     @FXML
     Pane paneDatosPersonales, paneHuellaDigital;
     @FXML
@@ -186,7 +189,7 @@ public class RegistrarProfesorController implements Initializable {
     
     public void registrarProfesor(){
         String nom, pat, mat, bol, fecha;
-        int gen;
+        int gen, idTipo = 3;
         nom = textfieldNombre.getText();
         pat = textfieldPaterno.getText();
         mat = textfieldMaterno.getText();
@@ -198,6 +201,10 @@ public class RegistrarProfesorController implements Initializable {
         else
             fecha = nacimiento.toString();
         System.out.println(fecha);
+        if(checkboxJefe.isSelected()){
+            idTipo = 4;
+        }
+        System.out.println("idtipo: "+idTipo);
         validaciones val = new validaciones();
         if (val.soloLet(nom, "el nombre", 200)) {
             if (val.soloLet(pat, "el apellido paterno", 200)) {
@@ -211,7 +218,7 @@ public class RegistrarProfesorController implements Initializable {
                                     //spGuardaDocente(in idT int,in g int, in pat nvarchar(250),in mat nvarchar(250), in nom nvarchar(250),
                                     //in fech date, in mail nvarchar(250),in numT nvarchar(15),in hu longblob)
                                     if (bol != null) {
-                                        ResultSet rs = bd.ejecuta("call spGuardaDocente(" + 3 + ", " + gen + ", '" + pat + "', '" + mat
+                                        ResultSet rs = bd.ejecuta("call spGuardaDocente(" + idTipo + ", " + gen + ", '" + pat + "', '" + mat
                                                 + "', '" + nom + "', '" + fecha + "', 'sinasignar@gmail.com', '" + bol + "');");
                                         while (rs.next()) {
                                             idPer = rs.getInt("idP");

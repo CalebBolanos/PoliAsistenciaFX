@@ -33,7 +33,31 @@ public class ConsultarDatos {
          baseDeDatos base = new baseDeDatos();
         try{
             base.conectar();
-            ResultSet resultado = base.ejecuta("select * from vwTrabajadores where (idTipo = 3 and idPersona > 0);");
+            ResultSet resultado = base.ejecuta("select * from vwTrabajadores where idTipo in(3,4) and idPersona > 0;");
+            Persona personax;
+            while(resultado.next()){
+                personax = new Persona();
+                personax.setNumero(resultado.getString("numTrabajador"));
+                personax.setNombre(resultado.getString("nombre"));
+                personax.setPaterno(resultado.getString("paterno"));
+                personax.setMaterno(resultado.getString("materno"));
+                personax.setGenero(resultado.getString("genero"));
+                datos.add(personax);
+                personax = null;
+            }
+            base.cierraConexion();
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+         return datos;
+    }
+    
+    public ObservableList<Persona> obtenerDatosSoloProfesores(){
+         ObservableList<Persona> datos = FXCollections.observableArrayList();
+         baseDeDatos base = new baseDeDatos();
+        try{
+            base.conectar();
+            ResultSet resultado = base.ejecuta("select * from vwTrabajadores where idTipo = 3 and idPersona > 0;");
             Persona personax;
             while(resultado.next()){
                 personax = new Persona();
@@ -686,7 +710,7 @@ public class ConsultarDatos {
         baseDeDatos bd = new baseDeDatos();
         try {
             bd.conectar();
-            ResultSet rs = bd.ejecuta("select * from vwmaterias;");
+            ResultSet rs = bd.ejecuta("select * from vwmaterias where idMateria > 0;");
             while(rs.next()){
                 materiax = new Materia();
                 materiax.setIdMateria(rs.getInt("idMateria"));
@@ -765,7 +789,7 @@ public class ConsultarDatos {
         baseDeDatos bd = new baseDeDatos();
         try {
             bd.conectar();
-            ResultSet rs = bd.ejecuta("select * from vwunidadeshorarios;");
+            ResultSet rs = bd.ejecuta("select * from vwunidadeshorarios;");//
             while(rs.next()){
                 if(idUnidad == rs.getInt("idUnidad")){
                     recopilarDatos = true;

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.TableColumn?>
@@ -38,6 +39,7 @@
             <Button fx:id="buttonContinuar" layoutX="788.0" layoutY="444.0" mnemonicParsing="false" onAction="#ejecutarAccion" styleClass="button-raised" text="Continuar" />
             <Text fill="#686868" fontSmoothingType="LCD" layoutX="373.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 27px;" text="Ingresa tus datos personales" />
             <Line endX="400.0" layoutX="474.0" layoutY="112.0" startX="-100.0" stroke="#b5b5b5" />
+            <CheckBox fx:id="checkboxJefe" layoutX="366.0" layoutY="444.0" mnemonicParsing="false" text="Registrar como Jefe de Academia" />
          </children>
       </Pane>
       <Pane fx:id="paneHuellaDigital" prefHeight="200.0" prefWidth="200.0" styleClass="button-raised" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">

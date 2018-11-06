@@ -126,7 +126,7 @@ public class ElegirProfesorEditarDatosController implements Initializable {
     }
     
     public void inicializarTabla(){
-        ObservableList<Persona> datos = consultar.obtenerDatosProfesores();
+        ObservableList<Persona> datos = consultar.obtenerDatosSoloProfesores();
         
         FilteredList<Persona> datosFiltrados = new FilteredList<>(datos, p -> true);
         textfieldBuscar.textProperty().addListener((observable, viejoValor, nuevoValor) -> {
