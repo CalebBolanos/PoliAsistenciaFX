@@ -3,9 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Caleb/Documents/GitHub/PoliAsistenciaFX/src/jefeAcademia/AgregarUnidadesController.java</file>
-            <file>file:/C:/Users/Caleb/Documents/GitHub/PoliAsistenciaFX/src/poliasistenciafx/ConsultarDatos.java</file>
-            <file>file:/C:/Users/Caleb/Documents/GitHub/PoliAsistenciaFX/src/jefeAcademia/GestionarUnidadesProfesorController.java</file>
+            <file>file:/C:/Users/Caleb/Documents/GitHub/PoliAsistenciaFX/src/jefeAcademia/InicioController.java</file>
+            <file>file:/C:/Users/Caleb/Documents/GitHub/PoliAsistenciaFX/src/jefeAcademia/CrearGrupo.fxml</file>
+            <file>file:/C:/Users/Caleb/Documents/GitHub/PoliAsistenciaFX/src/jefeAcademia/EditarDatosCuentaController.java</file>
+            <file>file:/C:/Users/Caleb/Documents/GitHub/PoliAsistenciaFX/src/jefeAcademia/AjustesController.java</file>
+            <file>file:/C:/Users/Caleb/Documents/GitHub/PoliAsistenciaFX/src/jefeAcademia/Ajustes.fxml</file>
         </group>
     </open-files>
 </project-private>

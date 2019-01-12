@@ -44,13 +44,14 @@ public class InicioController implements Initializable {
     Preferences sesionUsr;
     ConsultarDatos consultar;
     private int idPersona = 0;
+    Persona persona;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         sesionUsr = Preferences.userRoot();
         idPersona = sesionUsr.getInt(ID_PERSONA, 0);
         consultar = new ConsultarDatos();
-        Persona persona = consultar.obtenerDatosUsuario(idPersona) == null ? new Persona() : consultar.obtenerDatosUsuario(idPersona);
+        persona = consultar.obtenerDatosUsuario(idPersona) == null ? new Persona() : consultar.obtenerDatosUsuario(idPersona);
         buttonAjustes.setText(persona.getNombre());
     }
     
@@ -79,6 +80,11 @@ public class InicioController implements Initializable {
             FXMLLoader unidades = new FXMLLoader(getClass().getResource("Unidades.fxml"));
             Scene sceneUnidades = new Scene(unidades.load());
             stageInicioJefe.setScene(sceneUnidades);
+        }
+        if(e.getSource().equals(buttonAjustes)){
+            FXMLLoader ajustes = new FXMLLoader(getClass().getResource("Ajustes.fxml"));
+            Scene sceneAjustes = new Scene(ajustes.load());
+            stageInicioJefe.setScene(sceneAjustes);
         }
     }
     
