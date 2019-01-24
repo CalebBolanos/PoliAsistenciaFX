@@ -1241,6 +1241,36 @@ public class ConsultarDatos {
         }
         return personax;
     }
+    
+    public int cambiarContrasena(int idTipo, String numero, String antigua, String nueva){
+        int estatus = 0; // 1 - contraseña cambiada; 2 -  incorrecta; 3,4 - numero invalido; -1 - error
+        baseDeDatos bd = new baseDeDatos();
+        try {
+            bd.conectar();
+            ResultSet rs = bd.ejecuta("call spContrasenas(" + idTipo + ",'" + numero + "','" + antigua + "','" + nueva + "');");
+            if(rs.next()){
+                if (rs.getString("msj").equals("ok")) {
+                    estatus = 1;
+                } 
+                else{
+                    if (rs.getString("msj").equals("psw incorrecto") ) {
+                        estatus = 2;
+                    }
+                    if (rs.getString("msj").equals("Numero de trabajador invalido")) {
+                        estatus = 3;
+                    }
+                    if (rs.getString("msj").equals("Numero de boleta invalido invalido")) {
+                        estatus = 4;
+                    }
+                }
+            }
+            bd.cierraConexion();
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultarDatos.class.getName()).log(Level.SEVERE, null, ex);
+            estatus = -1;
+        }
+        return estatus;
+    }
      
     public String evaluarHora(int valorHora) {
         String hora;

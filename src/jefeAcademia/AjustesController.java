@@ -48,7 +48,7 @@ public class AjustesController implements Initializable {
     @FXML
     Button buttonInicio, buttonEditarDatos, buttonCambiarContrasena, buttonInfo;
     
-    Persona persona;
+    private Persona persona;
     Preferences sesion;
     private int idPersona = 0;
     ConsultarDatos consultar;
@@ -78,6 +78,11 @@ public class AjustesController implements Initializable {
             editarDatos.setController(editar);
             Scene sceneEditarDatos = new Scene(editarDatos.load());
             stageAjustes.setScene(sceneEditarDatos);
+        }
+        if(e.getSource().equals(buttonCambiarContrasena)){
+            FXMLLoader cambiarContrasena = new FXMLLoader(getClass().getResource("CambiarContrasena.fxml"));
+            Scene sceneCambiarContrasena = new Scene(cambiarContrasena.load());
+            stageAjustes.setScene(sceneCambiarContrasena);
         }
     }
     
