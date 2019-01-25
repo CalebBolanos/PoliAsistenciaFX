@@ -15,9 +15,20 @@
  */
 package gestionEscolar;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import poliasistenciafx.ConsultarDatos;
+import static poliasistenciafx.IniciarSesionController.ID_PERSONA;
+import poliasistenciafx.Persona;
 
 /**
  * FXML Controller class
@@ -29,9 +40,35 @@ public class AjustesController implements Initializable {
     /**
      * Initializes the controller class.
      */
+    @FXML
+    Button buttonInicio, buttonPersonal, buttonEditarDatos, buttonCambiarContrasena, buttonInfo;
+    
+    private Persona persona;
+    Preferences sesion;
+    private int idPersona = 0;
+    ConsultarDatos consultar;
+    String[] datos;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
+        sesion = Preferences.userRoot();
+        idPersona = sesion.getInt(ID_PERSONA, 0);
+        consultar = new ConsultarDatos();
+        persona = consultar.obtenerDatosUsuario(idPersona) == null ? new Persona() : consultar.obtenerDatosUsuario(idPersona);
+        datos = consultar.obtenerPersona(persona.getNumero());
+    }
+    
+     @FXML
+    public void irA(ActionEvent e) throws IOException{
+    
+    }
+    
+    @FXML
+    public void abrirNavegador(ActionEvent e) throws IOException, URISyntaxException{
+        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+            URI info = new URI("http://localhost:8080/poliAsistenciaWeb/info.html");
+            Desktop.getDesktop().browse(info);
+        }
+    }
     
 }

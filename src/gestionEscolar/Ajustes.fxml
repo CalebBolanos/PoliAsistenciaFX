@@ -5,19 +5,20 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="650.0" prefWidth="1300.0" style="-fx-background-color: #fff;" stylesheets="@../css/MaterialFX.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1">
+<AnchorPane id="AnchorPane" prefHeight="650.0" prefWidth="1300.0" style="-fx-background-color: #fff;" stylesheets="@../css/MaterialFX.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gestionEscolar.AjustesController">
     <children>
       <Pane fx:id="paneTitulo" layoutX="432.0" layoutY="82.0" prefHeight="80.0" prefWidth="1300.0" style="-fx-background-color: #f7f7f7;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Text fx:id="textTitulo" fontSmoothingType="LCD" layoutX="587.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 40;" text="Ajustes" textAlignment="CENTER" />
-            <Button fx:id="buttonInicio" layoutX="35.0" layoutY="21.0" mnemonicParsing="false" onAction="#cerrarSesion" text="Regresar a Inicio" />
+            <Button fx:id="buttonInicio" layoutX="35.0" layoutY="21.0" mnemonicParsing="false" text="Regresar a Inicio" />
          </children>
       </Pane>
       <Pane fx:id="paneContenido" layoutX="446.0" layoutY="287.0" prefHeight="200.0" prefWidth="400.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0); -fx-background-color: #ffffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
          <children>
-            <Button fx:id="buttonEditarDatos" layoutX="287.0" layoutY="191.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="726.0" styleClass="button-raised" text="Editar Datos de Esta Cuenta" />
-            <Button fx:id="buttonCambiarContrasena" layoutX="287.0" layoutY="264.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="726.0" styleClass="button-raised" text="Cambiar Contraseña" />
-            <Button fx:id="buttonInfo" layoutX="287.0" layoutY="337.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="726.0" styleClass="button-raised" text="Acerca de PoliAsistencia" />
+            <Button fx:id="buttonEditarDatos" layoutX="287.0" layoutY="235.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="726.0" styleClass="button-raised" text="Editar Datos de Esta Cuenta" />
+            <Button fx:id="buttonCambiarContrasena" layoutX="287.0" layoutY="308.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="726.0" styleClass="button-raised" text="Cambiar Contraseña" />
+            <Button fx:id="buttonInfo" layoutX="287.0" layoutY="381.0" mnemonicParsing="false" onAction="#abrirNavegador" prefHeight="40.0" prefWidth="726.0" styleClass="button-raised" text="Acerca de PoliAsistencia" />
+            <Button fx:id="buttonPersonal" layoutX="287.0" layoutY="164.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="726.0" styleClass="button-raised" text="Personal de Gestión Escolar" />
          </children></Pane>
    </children>
 </AnchorPane>
